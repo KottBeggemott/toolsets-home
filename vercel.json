@@ -1,12 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/unit-converter",
-      "destination": "https://unit-converter-snowy-sigma.vercel.app"
+      "source": "/unit-converter/:path*",
+      "destination": "https://unit-converter-snowy-sigma.vercel.app/:path*"
     },
     {
-      "source": "/bmi-calculator",
-      "destination": "https://bmi-calculator-blond-eight.vercel.app"
+      "source": "/bmi-calculator/:path*",
+      "destination": "https://bmi-calculator-blond-eight.vercel.app/:path*"
     }
   ]
 }
