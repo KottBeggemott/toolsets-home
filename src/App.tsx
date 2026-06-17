@@ -4,12 +4,12 @@ function App() {
   const tools = [
     {
       name: "Unit Converter",
-      url: "https://unit-converter-snowy-sigma.vercel.app",
+      url: "/unit-converter",
       description: "Convert length, weight, time and more.",
     },
     {
       name: "BMI Calculator",
-      url: "https://bmi-calculator-blond-eight.vercel.app",
+      url: "/bmi-calculator",
       description: "Calculate BMI, body fat and healthy weight range.",
     },
   ];
@@ -27,8 +27,6 @@ function App() {
           <a
             key={tool.name}
             href={tool.url}
-            target="_blank"
-            rel="noreferrer"
             className="card"
           >
             <h2>{tool.name}</h2>
