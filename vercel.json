@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/unit-converter",
+      "destination": "https://unit-converter-snowy-sigma.vercel.app"
+    },
+    {
+      "source": "/bmi-calculator",
+      "destination": "https://bmi-calculator-blond-eight.vercel.app"
+    }
+  ]
+}
