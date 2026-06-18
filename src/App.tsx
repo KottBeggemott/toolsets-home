@@ -1,7 +1,16 @@
+import WorldCupTimezoneConverter from "./tools/world-cup-timezone-converter/WorldCupTimezoneConverter";
 import "./App.css";
 
 function App() {
+  if (window.location.pathname === "/world-cup-timezone-converter") {
+  return <WorldCupTimezoneConverter />;
+}
   const tools = [
+    {
+      name: "World Cup Time Zone Converter",
+      url: "/world-cup-timezone-converter",
+      description: "Convert World Cup match times across different countries.",
+    },
     {
       name: "Unit Converter",
       url: "/unit-converter",
@@ -12,6 +21,7 @@ function App() {
       url: "/bmi-calculator",
       description: "Calculate BMI, body fat and healthy weight range.",
     },
+    
   ];
 
   return (
