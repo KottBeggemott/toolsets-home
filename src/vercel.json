@@ -7,6 +7,10 @@
     {
       "source": "/bmi-calculator/:path*",
       "destination": "https://bmi-calculator-blond-eight.vercel.app/:path*"
-    }
+    },
+    {
+  "source": "/world-cup-timezone-converter/:path*",
+  "destination": "/index.html"
+}
   ]
 }
