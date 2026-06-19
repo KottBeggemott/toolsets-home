@@ -1,9 +1,13 @@
+import WorldCupMatchPredictor from "./tools/world-cup-match-predictor/WorldCupMatchPredictor";
 import WorldCupTimezoneConverter from "./tools/world-cup-timezone-converter/WorldCupTimezoneConverter";
 import "./App.css";
 
 function App() {
   if (window.location.pathname === "/world-cup-timezone-converter") {
   return <WorldCupTimezoneConverter />;
+}
+if (window.location.pathname === "/world-cup-match-predictor") {
+  return <WorldCupMatchPredictor />;
 }
   const tools = [
     {
@@ -21,7 +25,11 @@ function App() {
       url: "/bmi-calculator",
       description: "Calculate BMI, body fat and healthy weight range.",
     },
-    
+    {
+      name: "World Cup Match Predictor",
+      url: "/world-cup-match-predictor",
+      description: "Generate fun World Cup score predictions.",
+    },
   ];
 
   return (
