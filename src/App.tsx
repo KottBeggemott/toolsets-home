@@ -1,8 +1,12 @@
 import WorldCupMatchPredictor from "./tools/world-cup-match-predictor/WorldCupMatchPredictor";
 import WorldCupTimezoneConverter from "./tools/world-cup-timezone-converter/WorldCupTimezoneConverter";
+import TDEECalculator from "./tools/tdee-calculator/TDEECalculator";
 import "./App.css";
 
 function App() {
+  if (window.location.pathname === "/tdee-calculator") {
+  return <TDEECalculator />;
+}
   if (window.location.pathname === "/world-cup-timezone-converter") {
   return <WorldCupTimezoneConverter />;
 }
@@ -16,6 +20,11 @@ if (window.location.pathname === "/world-cup-match-predictor") {
       description: "Convert World Cup match times across different countries.",
     },
     {
+      name: "World Cup Match Predictor",
+      url: "/world-cup-match-predictor",
+      description: "Generate fun World Cup score predictions.",
+    },
+    {
       name: "Unit Converter",
       url: "/unit-converter",
       description: "Convert length, weight, time and more.",
@@ -26,9 +35,9 @@ if (window.location.pathname === "/world-cup-match-predictor") {
       description: "Calculate BMI, body fat and healthy weight range.",
     },
     {
-      name: "World Cup Match Predictor",
-      url: "/world-cup-match-predictor",
-      description: "Generate fun World Cup score predictions.",
+      name: "TDEE Calculator",
+      url: "/tdee-calculator",
+      description: "Calculate maintenance calories, fat loss and muscle gain targets.",
     },
   ];
 
