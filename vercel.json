@@ -9,12 +9,16 @@
       "destination": "https://bmi-calculator-blond-eight.vercel.app/:path*"
     },
     {
-  "source": "/world-cup-timezone-converter/:path*",
-  "destination": "/index.html"
-},
-{
-  "source": "/world-cup-match-predictor/:path*",
-  "destination": "/index.html"
+      "source": "/world-cup-timezone-converter/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/world-cup-match-predictor/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tdee-calculator/:path*",
+      "destination": "/index.html"
 }
   ]
 }
