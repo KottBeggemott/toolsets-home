@@ -1,9 +1,12 @@
+import CompoundInterestCalculator from "./tools/compound-interest/CompoundInterestCalculator";
 import WorldCupMatchPredictor from "./tools/world-cup-match-predictor/WorldCupMatchPredictor";
 import WorldCupTimezoneConverter from "./tools/world-cup-timezone-converter/WorldCupTimezoneConverter";
 import TDEECalculator from "./tools/tdee-calculator/TDEECalculator";
-import "./App.css";
 
 function App() {
+  if (window.location.pathname === "/compound-interest") {
+  return <CompoundInterestCalculator />;
+}
   if (window.location.pathname === "/tdee-calculator") {
   return <TDEECalculator />;
 }
@@ -39,6 +42,11 @@ if (window.location.pathname === "/world-cup-match-predictor") {
       url: "/tdee-calculator",
       description: "Calculate maintenance calories, fat loss and muscle gain targets.",
     },
+    {
+  name: "Compound Interest Calculator",
+  url: "/compound-interest",
+  description: "Calculate investment growth with compound interest.",
+},
   ];
 
   return (
