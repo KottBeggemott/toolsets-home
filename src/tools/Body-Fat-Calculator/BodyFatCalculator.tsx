@@ -99,6 +99,9 @@ function BodyFatCalculator() {
   return (
     <div className="app">
       <div className="tool-card">
+        <a href="/" className="back-link">
+        ← Back to Toolsets
+        </a>
         <h1>U.S. Navy Body Fat Calculator</h1>
 
         <p className="subtitle">
@@ -214,7 +217,7 @@ function BodyFatCalculator() {
                 <hr />
                 <p className="result-label">Fat Mass</p>
                 <div className="result-number-small">{fatMass ? `${fatMass} kg` : "--"}
-                  
+
                 </div>
             </>  
           ) : (

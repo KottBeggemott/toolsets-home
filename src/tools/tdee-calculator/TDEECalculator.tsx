@@ -93,6 +93,9 @@ const selectedSplit = macroSplits[macroSplit as keyof typeof macroSplits];
   return (
     <div style={pageStyle}>
       <div style={containerStyle}>
+        <a href="/" className="back-link">
+        ← Back to Toolsets
+        </a>
         <h1 style={titleStyle}>TDEE Calculator</h1>
 
         <p style={subtitleStyle}>

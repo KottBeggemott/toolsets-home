@@ -156,4 +156,15 @@
   .result-breakdown {
     grid-template-columns: 1fr;
   }
+  .back-link {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.back-link:hover {
+  color: white;
+}
 }
