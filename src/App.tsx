@@ -2,6 +2,7 @@ import CompoundInterestCalculator from "./tools/compound-interest/CompoundIntere
 import WorldCupMatchPredictor from "./tools/world-cup-match-predictor/WorldCupMatchPredictor";
 import WorldCupTimezoneConverter from "./tools/world-cup-timezone-converter/WorldCupTimezoneConverter";
 import TDEECalculator from "./tools/tdee-calculator/TDEECalculator";
+import BodyFatCalculator from "./tools/Body-Fat-Calculator/BodyFatCalculator";
 
 function App() {
   if (window.location.pathname === "/compound-interest") {
@@ -15,6 +16,9 @@ function App() {
 }
 if (window.location.pathname === "/world-cup-match-predictor") {
   return <WorldCupMatchPredictor />;
+}
+if (window.location.pathname === "/body-fat-calculator") {
+  return <BodyFatCalculator />;
 }
   const tools = [
     {
@@ -41,6 +45,11 @@ if (window.location.pathname === "/world-cup-match-predictor") {
       name: "TDEE Calculator",
       url: "/tdee-calculator",
       description: "Calculate maintenance calories, fat loss and muscle gain targets.",
+    },
+    {
+      name: "Body Fat Calculator",
+      url: "/body-fat-calculator",
+      description: "Estimate your body fat percentage using the U.S. Navy formula.",
     },
     {
   name: "Compound Interest Calculator",
