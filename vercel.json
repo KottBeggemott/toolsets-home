@@ -25,6 +25,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/percentage-calculator/:path*",
+      "destination": "/index.html"
+    },
+    {
       "source": "/compound-interest/:path*",
       "destination": "/index.html"
     }

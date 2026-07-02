@@ -3,7 +3,7 @@ import WorldCupMatchPredictor from "./tools/world-cup-match-predictor/WorldCupMa
 import WorldCupTimezoneConverter from "./tools/world-cup-timezone-converter/WorldCupTimezoneConverter";
 import TDEECalculator from "./tools/tdee-calculator/TDEECalculator";
 import BodyFatCalculator from "./tools/Body-Fat-Calculator/BodyFatCalculator";
-
+import PercentageCalculator from "./tools/percentage-calculator/App.tsx";
 function App() {
   if (window.location.pathname === "/compound-interest") {
   return <CompoundInterestCalculator />;
@@ -19,6 +19,9 @@ if (window.location.pathname === "/world-cup-match-predictor") {
 }
 if (window.location.pathname === "/body-fat-calculator") {
   return <BodyFatCalculator />;
+}
+if (window.location.pathname === "/percentage-calculator") {
+  return <PercentageCalculator />;
 }
   const tools = [
     {
@@ -55,6 +58,11 @@ if (window.location.pathname === "/body-fat-calculator") {
   name: "Compound Interest Calculator",
   url: "/compound-interest",
   description: "Calculate investment growth with compound interest.",
+},
+{
+  name: "Percentage Calculator",
+  url: "/percentage-calculator",
+  description: "Calculate percentages, increases, decreases, discounts and markups.",
 },
   ];
 
