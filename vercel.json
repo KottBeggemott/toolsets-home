@@ -31,6 +31,10 @@
     {
       "source": "/compound-interest/:path*",
       "destination": "/index.html"
+    },
+    {
+      "source": "/savings-calculator/:path*",
+      "destination": "/index.html"
     }
   ]
 }

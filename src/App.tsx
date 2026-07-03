@@ -4,6 +4,7 @@ import WorldCupTimezoneConverter from "./tools/world-cup-timezone-converter/Worl
 import TDEECalculator from "./tools/tdee-calculator/TDEECalculator";
 import BodyFatCalculator from "./tools/Body-Fat-Calculator/BodyFatCalculator";
 import PercentageCalculator from "./tools/percentage-calculator/App.tsx";
+import SavingsCalculator from "./tools/savings-calculator/SavingsCalculator";
 function App() {
   if (window.location.pathname === "/compound-interest") {
   return <CompoundInterestCalculator />;
@@ -23,6 +24,9 @@ if (window.location.pathname === "/body-fat-calculator") {
 if (window.location.pathname === "/percentage-calculator") {
   return <PercentageCalculator />;
 }
+if (window.location.pathname === "/savings-calculator") {
+  return <SavingsCalculator />;
+} 
   const tools = [
     {
       name: "World Cup Time Zone Converter",
@@ -63,6 +67,11 @@ if (window.location.pathname === "/percentage-calculator") {
   name: "Percentage Calculator",
   url: "/percentage-calculator",
   description: "Calculate percentages, increases, decreases, discounts and markups.",
+},
+{
+  name: "Savings Calculator",
+  url: "/savings-calculator",
+  description: "Calculate how long it takes to reach your savings goal.",
 },
   ];
 
