@@ -35,6 +35,10 @@
     {
       "source": "/savings-calculator/:path*",
       "destination": "/index.html"
+    },
+    {
+      "source": "/loan-calculator/:path*",
+      "destination": "/index.html"
     }
   ]
 }

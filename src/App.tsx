@@ -5,6 +5,7 @@ import TDEECalculator from "./tools/tdee-calculator/TDEECalculator";
 import BodyFatCalculator from "./tools/Body-Fat-Calculator/BodyFatCalculator";
 import PercentageCalculator from "./tools/percentage-calculator/App.tsx";
 import SavingsCalculator from "./tools/savings-calculator/SavingsCalculator";
+import LoanCalculator from "./tools/loan-calculator/LoanCalculator";
 function App() {
   if (window.location.pathname === "/compound-interest") {
   return <CompoundInterestCalculator />;
@@ -27,6 +28,9 @@ if (window.location.pathname === "/percentage-calculator") {
 if (window.location.pathname === "/savings-calculator") {
   return <SavingsCalculator />;
 } 
+if (window.location.pathname === "/loan-calculator") {
+  return <LoanCalculator />;
+}
   const tools = [
     {
       name: "World Cup Time Zone Converter",
@@ -72,6 +76,11 @@ if (window.location.pathname === "/savings-calculator") {
   name: "Savings Calculator",
   url: "/savings-calculator",
   description: "Calculate how long it takes to reach your savings goal.",
+},
+{
+  name: "Loan Calculator",
+  url: "/loan-calculator",
+  description: "Estimate monthly payments and total loan interest.",
 },
   ];
 
