@@ -6,6 +6,8 @@ import BodyFatCalculator from "./tools/Body-Fat-Calculator/BodyFatCalculator";
 import PercentageCalculator from "./tools/percentage-calculator/App.tsx";
 import SavingsCalculator from "./tools/savings-calculator/SavingsCalculator";
 import LoanCalculator from "./tools/loan-calculator/LoanCalculator";
+import BMICalculator from "./tools/BMI-Calculator/BMICalculator";
+import UnitConverter from "./tools/Unit-Converter/UnitConverter";
 function App() {
   if (window.location.pathname === "/compound-interest") {
   return <CompoundInterestCalculator />;
@@ -30,6 +32,12 @@ if (window.location.pathname === "/savings-calculator") {
 } 
 if (window.location.pathname === "/loan-calculator") {
   return <LoanCalculator />;
+}
+if (window.location.pathname === "/bmi-calculator") {
+  return <BMICalculator />;
+}
+if (window.location.pathname === "/unit-converter") {
+  return <UnitConverter />;
 }
   const tools = [
     {

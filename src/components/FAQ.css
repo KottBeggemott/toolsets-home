@@ -1,0 +1,23 @@
+.faq-list {
+  display: grid;
+  gap: 12px;
+}
+
+.faq-item {
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.faq-item summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #f9fafb;
+}
+
+.faq-item p {
+  margin-top: 10px;
+  color: #d1d5db;
+  line-height: 1.6;
+}

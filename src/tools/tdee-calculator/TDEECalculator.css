@@ -1,0 +1,74 @@
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.tdee-goal-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.tdee-goal-card {
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.tdee-goal-card h3 {
+  margin: 0 0 10px;
+  color: #fff;
+}
+
+.tdee-goal-card > strong {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.tdee-goal-card p {
+  color: #9ca3af;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+.tdee-goal-card {
+    width: 100%;
+    max-width: 420px;
+}
+
+.tdee-macro-list {
+  display: grid;
+  gap: 8px;
+}
+
+.tdee-macro-row {
+  display: flex;
+  justify-content: space-between;
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.tdee-macro-row span {
+  color: #d1d5db;
+}
+
+.tdee-macro-row strong {
+  color: white;
+}
+
+@media (max-width: 700px) {
+  .input-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tdee-goal-grid {
+    grid-template-columns: 1fr;
+  }
+}

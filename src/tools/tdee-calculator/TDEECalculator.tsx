@@ -1,22 +1,16 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import "./TDEECalculator.css";
+import CalculatorLayout from "../../components/CalculatorLayout";
+import ActionButtons from "../../components/ActionButtons";
+import FAQ from "../../components/FAQ";
+import RelatedTools from "../../components/RelatedTools";
+import SEO from "../../components/SEO";
+import NumberInput from "../../components/NumberInput";
+import SelectField from "../../components/SelectField";
+import ResultCard from "../../components/ResultCard";
+import NutritionResultCard from "../../components/NutritionResultCard";
 
-export default function TDEECalculator() {
-  const [gender, setGender] = useState("male");
-  const [age, setAge] = useState("30");
-  const [height, setHeight] = useState("175");
-  const [weight, setWeight] = useState("75");
-  const [bodyFat, setBodyFat] = useState("");
-  const [activity, setActivity] = useState("1.55");
-  const [calorieStep, setCalorieStep] = useState("500");
-  const [macroSplit, setMacroSplit] = useState("balanced");
-
-  const ageNumber = Number(age);
-  const heightNumber = Number(height);
-  const weightNumber = Number(weight);
-  const bodyFatNumber = Number(bodyFat);
-  const activityNumber = Number(activity);
-  const calorieStepNumber = Number(calorieStep);
-  const macroSplits = {
+const macroSplits = {
   highProtein: {
     label: "High Protein — 40 / 30 / 30",
     protein: 40,
@@ -43,451 +37,367 @@ export default function TDEECalculator() {
   },
 };
 
-const selectedSplit = macroSplits[macroSplit as keyof typeof macroSplits];
+function TDEECalculator() {
+  const [gender, setGender] = useState("male");
+  const [age, setAge] = useState("30");
+  const [height, setHeight] = useState("175");
+  const [weight, setWeight] = useState("75");
+  const [bodyFat, setBodyFat] = useState("");
+  const [activity, setActivity] = useState("1.55");
+  const [calorieStep, setCalorieStep] = useState("500");
+  const [macroSplit, setMacroSplit] = useState("balanced");
 
-  const hasValidBodyFat = bodyFat !== "" && bodyFatNumber > 0 && bodyFatNumber < 70;
+  const result = useMemo(() => {
+    const ageNumber = Number(age);
+    const heightNumber = Number(height);
+    const weightNumber = Number(weight);
+    const bodyFatNumber = Number(bodyFat);
+    const activityNumber = Number(activity);
+    const calorieStepNumber = Number(calorieStep);
 
-  const leanBodyMass = hasValidBodyFat
-    ? weightNumber * (1 - bodyFatNumber / 100)
-    : weightNumber;
+    if (
+      ageNumber <= 0 ||
+      heightNumber <= 0 ||
+      weightNumber <= 0 ||
+      activityNumber <= 0 ||
+      calorieStepNumber <= 0
+    ) {
+      return null;
+    }
 
-  const standardBmr =
-    gender === "male"
-      ? 10 * weightNumber + 6.25 * heightNumber - 5 * ageNumber + 5
-      : 10 * weightNumber + 6.25 * heightNumber - 5 * ageNumber - 161;
+    const hasValidBodyFat =
+      bodyFat !== "" && bodyFatNumber > 0 && bodyFatNumber < 70;
 
-  const leanMassBmr = 370 + 21.6 * leanBodyMass;
+    const leanBodyMass = hasValidBodyFat
+      ? weightNumber * (1 - bodyFatNumber / 100)
+      : weightNumber;
 
-  const bmr = hasValidBodyFat ? leanMassBmr : standardBmr;
-  const tdee = bmr * activityNumber;
+    const standardBmr =
+      gender === "male"
+        ? 10 * weightNumber + 6.25 * heightNumber - 5 * ageNumber + 5
+        : 10 * weightNumber + 6.25 * heightNumber - 5 * ageNumber - 161;
 
- const goals = [
-  {
-    name: "Cutting",
-    calories: tdee - calorieStepNumber,
-    note: `${calorieStepNumber} kcal deficit for fat loss.`,
-  },
-  {
-    name: "Maintaining",
-    calories: tdee,
-    note: "Maintenance calories for stable body weight.",
-  },
-  {
-    name: "Bulking",
-    calories: tdee + calorieStepNumber,
-    note: `${calorieStepNumber} kcal surplus for muscle gain.`,
-  },
-];
+    const leanMassBmr = 370 + 21.6 * leanBodyMass;
+    const bmr = hasValidBodyFat ? leanMassBmr : standardBmr;
+    const tdee = bmr * activityNumber;
 
-  const resetInputs = () => {
-  setGender("male");
-  setAge("30");
-  setHeight("175");
-  setWeight("75");
-  setBodyFat("");
-  setActivity("1.55");
-  setCalorieStep("500");
-  setMacroSplit("balanced");
-};
+    const selectedSplit = macroSplits[macroSplit as keyof typeof macroSplits];
+
+    const goals = [
+      {
+        name: "Cutting",
+        calories: tdee - calorieStepNumber,
+        note: `${calorieStepNumber} kcal deficit for fat loss.`,
+      },
+      {
+        name: "Maintaining",
+        calories: tdee,
+        note: "Maintenance calories for stable body weight.",
+      },
+      {
+        name: "Bulking",
+        calories: tdee + calorieStepNumber,
+        note: `${calorieStepNumber} kcal surplus for muscle gain.`,
+      },
+    ];
+
+    return {
+      bmr,
+      tdee,
+      hasValidBodyFat,
+      selectedSplit,
+      goals,
+    };
+  }, [
+    gender,
+    age,
+    height,
+    weight,
+    bodyFat,
+    activity,
+    calorieStep,
+    macroSplit,
+  ]);
+
+  const resetCalculator = () => {
+    setGender("male");
+    setAge("30");
+    setHeight("175");
+    setWeight("75");
+    setBodyFat("");
+    setActivity("1.55");
+    setCalorieStep("500");
+    setMacroSplit("balanced");
+  };
+
+  const copyResult = async () => {
+    if (!result) return;
+
+    const text = `TDEE Calculator Result:
+BMR: ${Math.round(result.bmr)} kcal/day
+TDEE: ${Math.round(result.tdee)} kcal/day
+Cutting: ${Math.round(result.goals[0].calories)} kcal/day
+Maintaining: ${Math.round(result.goals[1].calories)} kcal/day
+Bulking: ${Math.round(result.goals[2].calories)} kcal/day
+Macro split: ${result.selectedSplit.label}`;
+
+    await navigator.clipboard.writeText(text);
+  };
+
+  const shareResult = async () => {
+    if (!result) return;
+
+    const text = `My estimated TDEE is ${Math.round(
+      result.tdee
+    )} kcal/day.`;
+
+    if (navigator.share) {
+      await navigator.share({
+        title: "TDEE Calculator Result",
+        text,
+        url: window.location.href,
+      });
+    } else {
+      await navigator.clipboard.writeText(`${text} ${window.location.href}`);
+    }
+  };
 
   return (
-    <div style={pageStyle}>
-      <div style={containerStyle}>
-        <a href="/" className="back-link">
-        ← Back to Toolsets
-        </a>
-        <h1 style={titleStyle}>TDEE Calculator</h1>
+    <>
+      <SEO
+        title="TDEE Calculator"
+        description="Calculate your BMR, maintenance calories, fat loss calories, bulking calories, and daily macro targets."
+        canonicalPath="/tdee-calculator"
+      />
 
-        <p style={subtitleStyle}>
-          Calculate your BMR, maintenance calories and daily macro targets.
-        </p>
-
-        <div style={cardStyle}>
-          <div style={inputGridStyle}>
-            <InputGroup label="Gender">
-              <select
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                style={inputStyle}
-              >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </InputGroup>
-
-            <InputGroup label="Age">
-              <input
-                type="number"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                style={inputStyle}
+      <CalculatorLayout
+        title="TDEE Calculator"
+        subtitle="Calculate your BMR, maintenance calories and daily macro targets."
+        result={
+          result ? (
+            <>
+              <ResultCard
+                title="Estimated daily energy needs"
+                mainResult={`${Math.round(result.tdee)} kcal/day`}
+                items={[
+                  {
+                    label: "BMR",
+                    value: `${Math.round(result.bmr)} kcal/day`,
+                  },
+                  {
+                    label: "TDEE",
+                    value: `${Math.round(result.tdee)} kcal/day`,
+                  },
+                  {
+                    label: "Macro split",
+                    value:
+                    macroSplit === "balanced"
+                    ? "Balanced"
+                    : macroSplit === "highProtein"
+                    ? "High Protein"
+                    : macroSplit === "highCarb"
+                    ? "High Carb"
+                    : "Lower Carb",
+                  },
+                  {
+                    label: "Formula mode",
+                    value: result.hasValidBodyFat
+                      ? "Lean mass based"
+                      : "Standard BMR",
+                  },
+                ]}
               />
-            </InputGroup>
 
-            <InputGroup label="Height (cm)">
-              <input
-                type="number"
-                value={height}
-                onChange={(e) => setHeight(e.target.value)}
-                style={inputStyle}
+              <NutritionResultCard
+                goals={result.goals.map((goal) => {
+                  const protein =
+                    (goal.calories * (result.selectedSplit.protein / 100)) / 4;
+                  const fat =
+                    (goal.calories * (result.selectedSplit.fat / 100)) / 9;
+                  const carbs =
+                    (goal.calories * (result.selectedSplit.carbs / 100)) / 4;
+
+                  return {
+                    name: goal.name,
+                    calories: `${Math.round(goal.calories)} kcal/day`,
+                    macros: [
+                      {
+                        label: `Protein ${result.selectedSplit.protein}%`,
+                        value: `${Math.round(protein)} g`,
+                      },
+                      {
+                        label: `Fat ${result.selectedSplit.fat}%`,
+                        value: `${Math.round(fat)} g`,
+                      },
+                      {
+                        label: `Carbs ${result.selectedSplit.carbs}%`,
+                        value: `${Math.round(carbs)} g`,
+                      },
+                    ],
+                    note: goal.note,
+                  };
+                })}
               />
-            </InputGroup>
+            </>
+          ) : (
+            <p className="result-label">Enter valid values to calculate.</p>
+          )
+        }
+        actions={
+          <ActionButtons
+            onReset={resetCalculator}
+            onCopy={copyResult}
+            onShare={shareResult}
+          />
+        }
+        infoTitle="Macro Preference Guide"
+        info={
+          <>
+            <p>
+              <strong>Balanced (30/30/40)</strong>
+              <br />
+              Best for most people. Ideal for maintaining weight, general health
+              and everyday training.
+            </p>
 
-            <InputGroup label="Weight (kg)">
-              <input
-                type="number"
-                value={weight}
-                onChange={(e) => setWeight(e.target.value)}
-                style={inputStyle}
-              />
-            </InputGroup>
-          </div>
+            <p>
+              <strong>High Protein (40/30/30)</strong>
+              <br />
+              Helps preserve muscle during fat loss and can improve satiety
+              while dieting.
+            </p>
 
-          <InputGroup label="Body Fat % (optional)">
-            <input
-              type="number"
-              placeholder="Leave empty if unknown"
-              value={bodyFat}
-              onChange={(e) => setBodyFat(e.target.value)}
-              style={inputStyle}
-            />
-          </InputGroup>
+            <p>
+              <strong>High Carb (25/25/50)</strong>
+              <br />
+              Useful for endurance athletes or people doing high-volume
+              training.
+            </p>
 
-          <InputGroup label="Activity Level">
-            <select
-              value={activity}
-              onChange={(e) => setActivity(e.target.value)}
-              style={inputStyle}
-            >
-              <option value="1.2">Sedentary — little exercise</option>
-              <option value="1.375">Light — 1-3 days/week</option>
-              <option value="1.55">Moderate — 3-5 days/week</option>
-              <option value="1.725">Active — 6-7 days/week</option>
-              <option value="1.9">Very active — physical job + training</option>
-            </select>
-          </InputGroup>
+            <p>
+              <strong>Lower Carb (35/35/30)</strong>
+              <br />
+              Suitable for people who prefer higher protein and fat intake or
+              naturally eat fewer carbohydrates.
+            </p>
+          </>
+        }
+        faq={
+          <FAQ
+            items={[
+              {
+                question: "What is TDEE?",
+                answer:
+                  "TDEE stands for Total Daily Energy Expenditure. It estimates how many calories you burn per day including activity.",
+              },
+              {
+                question: "What is BMR?",
+                answer:
+                  "BMR is Basal Metabolic Rate. It estimates how many calories your body burns at rest.",
+              },
+              {
+                question: "Are macro targets exact?",
+                answer:
+                  "No. Macro targets are useful starting points, but individual needs vary based on training, goals, health, and preferences.",
+              },
+            ]}
+          />
+        }
+        relatedTools={
+          <RelatedTools
+            tools={[
+              {
+                name: "Body Fat Calculator",
+                url: "/body-fat-calculator",
+                description:
+                  "Estimate body fat percentage using body measurements.",
+              },
+              {
+                name: "BMI Calculator",
+                url: "/bmi-calculator",
+                description: "Calculate BMI and healthy weight range.",
+              },
+            ]}
+          />
+        }
+      >
+        <div className="input-grid">
+          <SelectField
+            label="Gender"
+            value={gender}
+            onChange={setGender}
+            options={[
+              { value: "male", label: "Male" },
+              { value: "female", label: "Female" },
+            ]}
+          />
 
-          <InputGroup label="Cut / Bulk Amount">
-          <select
-          value={calorieStep}
-          onChange={(e) => setCalorieStep(e.target.value)}
-          style={inputStyle}
-          >
-            <option value="250">250 kcal — slower, cleaner progress</option>
-            <option value="500">500 kcal — faster progress</option>
-            </select>
-            </InputGroup>
-            
-            <InputGroup label="Macro Preference* (Optional)">
-            <select
+          <NumberInput label="Age" value={age} onChange={setAge} min="1" />
+
+          <NumberInput
+            label="Height (cm)"
+            value={height}
+            onChange={setHeight}
+            min="1"
+          />
+
+          <NumberInput
+            label="Weight (kg)"
+            value={weight}
+            onChange={setWeight}
+            min="1"
+          />
+
+          <NumberInput
+            label="Body Fat % (optional)"
+            value={bodyFat}
+            onChange={setBodyFat}
+            min="1"
+            max="69"
+            placeholder="Leave empty if unknown"
+          />
+
+          <SelectField
+            label="Activity Level"
+            value={activity}
+            onChange={setActivity}
+            options={[
+              { value: "1.2", label: "Sedentary — little exercise" },
+              { value: "1.375", label: "Light — 1-3 days/week" },
+              { value: "1.55", label: "Moderate — 3-5 days/week" },
+              { value: "1.725", label: "Active — 6-7 days/week" },
+              {
+                value: "1.9",
+                label: "Very active — physical job + training",
+              },
+            ]}
+          />
+
+          <SelectField
+            label="Cut / Bulk Amount"
+            value={calorieStep}
+            onChange={setCalorieStep}
+            options={[
+              { value: "250", label: "250 kcal — slower, cleaner progress" },
+              { value: "500", label: "500 kcal — faster progress" },
+            ]}
+          />
+
+          <SelectField
+            label="Macro Preference"
             value={macroSplit}
-            onChange={(e) => setMacroSplit(e.target.value)}
-            style={inputStyle}
-            >
-              <option value="balanced">Balanced — 30 / 30 / 40</option>
-              <option value="highProtein">High Protein — 40 / 30 / 30</option>
-              <option value="highCarb">High Carb — 25 / 25 / 50</option>
-              <option value="lowerCarb">Lower Carb — 35 / 35 / 30</option>
-              </select>
-              </InputGroup>
-
-          <div style={summaryGridStyle}>
-            <SummaryCard title="BMR" value={`${Math.round(bmr)} kcal/day`} />
-            <SummaryCard title="TDEE" value={`${Math.round(tdee)} kcal/day`} />
-          </div>
-
-          <div style={goalGridStyle}>
-            {goals.map((goal) => (
-              <GoalCard
-              key={goal.name}
-              name={goal.name}
-              calories={goal.calories}
-              proteinPercent={selectedSplit.protein}
-              fatPercent={selectedSplit.fat}
-              carbsPercent={selectedSplit.carbs}
-              note={goal.note}
-              />
-            ))}
-          </div>
-
-          <button onClick={resetInputs} style={resetButtonStyle}>
-            Reset
-          </button>
-
-          <p style={noteStyle}>
-            If body fat percentage is entered, protein and BMR use lean body mass.
-            Otherwise, calculations use total body weight and the standard male/female formula.
-          </p>
-          <div style={infoBoxStyle}>
-  <h3 style={infoTitleStyle}>Macro Preference Guide*</h3>
-
-  <p>
-    <strong>Balanced (30/30/40)</strong><br />
-    Best for most people. Ideal for maintaining weight, general health and
-    everyday training.
-  </p>
-
-  <p>
-    <strong>High Protein (40/30/30)</strong><br />
-    Helps preserve muscle during fat loss and can improve satiety while
-    dieting.
-  </p>
-
-  <p>
-    <strong>High Carb (25/25/50)</strong><br />
-    Recommended for endurance athletes or people performing large amounts of
-    cardio or high-volume training.
-  </p>
-
-  <p>
-    <strong>Lower Carb (35/35/30)</strong><br />
-    Suitable for people who prefer higher protein and fat intake or naturally
-    eat fewer carbohydrates.
-  </p>
-
-  <p style={{ marginTop: "18px", opacity: 0.75 }}>
-    *These are evidence-based starting points. Individual needs vary depending
-    on goals, training style, medical conditions and personal preference.
-  </p>
-</div>
+            onChange={setMacroSplit}
+            options={[
+              { value: "balanced", label: "Balanced — 30 / 30 / 40" },
+              { value: "highProtein", label: "High Protein — 40 / 30 / 30" },
+              { value: "highCarb", label: "High Carb — 25 / 25 / 50" },
+              { value: "lowerCarb", label: "Lower Carb — 35 / 35 / 30" },
+            ]}
+          />
         </div>
-      </div>
-    </div>
+      </CalculatorLayout>
+    </>
   );
 }
 
-function InputGroup({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <label style={labelStyle}>
-      <span>{label}</span>
-      {children}
-    </label>
-  );
-}
-
-function SummaryCard({ title, value }: { title: string; value: string }) {
-  return (
-    <div style={summaryCardStyle}>
-      <p style={smallTextStyle}>{title}</p>
-      <div style={summaryValueStyle}>{value}</div>
-    </div>
-  );
-}
-
-function GoalCard({
-  name,
-  calories,
-  proteinPercent,
-  fatPercent,
-  carbsPercent,
-  note,
-}: {
-  name: string;
-  calories: number;
-  proteinPercent: number;
-  fatPercent: number;
-  carbsPercent: number;
-  note: string;
-}) {
-  const protein = (calories * (proteinPercent / 100)) / 4;
-  const fat = (calories * (fatPercent / 100)) / 9;
-  const carbs = (calories * (carbsPercent / 100)) / 4;
-
-  return (
-    <div style={goalCardStyle}>
-      <h2 style={goalTitleStyle}>{name}</h2>
-
-      <div style={goalCaloriesStyle}>{Math.round(calories)} kcal/day</div>
-
-      <div style={macroListStyle}>
-        <MacroRow label={`Protein ${proteinPercent}%`} value={`${Math.round(protein)} g`} />
-        <MacroRow label={`Fat ${fatPercent}%`} value={`${Math.round(fat)} g`} />
-        <MacroRow label={`Carbs ${carbsPercent}%`} value={`${Math.round(carbs)} g`} />
-      </div>
-
-      <p style={goalNoteStyle}>{note}</p>
-    </div>
-  );
-}
-function MacroRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div style={macroRowStyle}>
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </div>
-  );
-}
-
-const pageStyle = {
-  minHeight: "100vh",
-  background: "#020617",
-  color: "#e5e7eb",
-  padding: "32px 16px",
-  fontFamily: "system-ui, sans-serif",
-};
-
-const containerStyle = {
-  maxWidth: "900px",
-  margin: "0 auto",
-};
-
-const titleStyle = {
-  textAlign: "center" as const,
-  fontSize: "36px",
-  marginBottom: "10px",
-};
-
-const subtitleStyle = {
-  textAlign: "center" as const,
-  color: "#9ca3af",
-  marginBottom: "28px",
-};
-
-const cardStyle = {
-  background: "#111827",
-  border: "1px solid #374151",
-  borderRadius: "18px",
-  padding: "22px",
-  boxShadow: "0 20px 40px rgba(0,0,0,0.35)",
-};
-
-const inputGridStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-  gap: "14px",
-};
-
-const labelStyle = {
-  display: "grid",
-  gap: "8px",
-  color: "#d1d5db",
-  fontWeight: 700,
-  marginBottom: "16px",
-};
-
-const inputStyle = {
-  width: "100%",
-  background: "#020617",
-  color: "#f9fafb",
-  border: "1px solid #374151",
-  borderRadius: "12px",
-  padding: "14px",
-  fontSize: "16px",
-  boxSizing: "border-box" as const,
-};
-
-const summaryGridStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-  gap: "14px",
-  marginTop: "8px",
-};
-
-const summaryCardStyle = {
-  background: "#020617",
-  border: "1px solid #374151",
-  borderRadius: "14px",
-  padding: "18px",
-  textAlign: "center" as const,
-};
-
-const smallTextStyle = {
-  color: "#9ca3af",
-  margin: 0,
-};
-
-const summaryValueStyle = {
-  fontSize: "30px",
-  fontWeight: 800,
-  color: "#ffffff",
-  marginTop: "6px",
-};
-
-const goalGridStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
-  gap: "14px",
-  marginTop: "16px",
-};
-
-const goalCardStyle = {
-  background: "#020617",
-  border: "1px solid #374151",
-  borderRadius: "14px",
-  padding: "18px",
-};
-
-const goalTitleStyle = {
-  margin: "0 0 8px",
-  fontSize: "22px",
-  color: "#ffffff",
-};
-
-const goalCaloriesStyle = {
-  fontSize: "26px",
-  fontWeight: 800,
-  color: "#ffffff",
-  marginBottom: "14px",
-};
-
-const macroListStyle = {
-  display: "grid",
-  gap: "8px",
-};
-
-const macroRowStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  background: "#111827",
-  border: "1px solid #374151",
-  borderRadius: "10px",
-  padding: "10px 12px",
-};
-
-const goalNoteStyle = {
-  color: "#9ca3af",
-  fontSize: "13px",
-  marginTop: "12px",
-};
-
-const resetButtonStyle = {
-  width: "100%",
-  marginTop: "16px",
-  background: "#facc15",
-  color: "#020617",
-  border: "none",
-  borderRadius: "12px",
-  padding: "14px",
-  fontSize: "16px",
-  fontWeight: 800,
-  cursor: "pointer",
-};
-
-const noteStyle = {
-  color: "#9ca3af",
-  fontSize: "13px",
-  textAlign: "center" as const,
-  marginTop: "16px",
-};
-const infoBoxStyle = {
-  marginTop: "30px",
-  padding: "24px",
-  background: "#111827",
-  border: "1px solid #374151",
-  borderRadius: "16px",
-  color: "#d1d5db",
-  lineHeight: "1.7",
-};
-
-const infoTitleStyle = {
-  textAlign: "center" as const,
-  marginBottom: "18px",
-  color: "#fff",
-  fontSize: "24px",
-};
+export default TDEECalculator;

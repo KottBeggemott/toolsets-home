@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/unit-converter/:path*",
-      "destination": "https://unit-converter-snowy-sigma.vercel.app/:path*"
+      "destination": "/index.html"
     },
     {
       "source": "/bmi-calculator/:path*",
-      "destination": "https://bmi-calculator-blond-eight.vercel.app/:path*"
+      "destination": "/index.html"
     },
     {
       "source": "/world-cup-timezone-converter/:path*",

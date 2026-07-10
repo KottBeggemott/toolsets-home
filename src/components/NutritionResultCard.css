@@ -1,0 +1,102 @@
+.nutrition-goal-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.nutrition-goal-card {
+  width: 100%;
+  max-width: 100%;
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 16px;
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.nutrition-goal-title {
+  margin: 0 0 6px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+}
+
+.nutrition-goal-calories {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.nutrition-macro-list {
+  display: grid;
+  gap: 8px;
+}
+
+.nutrition-macro-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.nutrition-macro-row span,
+.nutrition-macro-row strong {
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.nutrition-macro-row span {
+  color: #d1d5db;
+}
+
+.nutrition-macro-row strong {
+  color: white;
+}
+
+.nutrition-goal-note {
+  margin: 14px 0 0;
+  text-align: center;
+  color: #9ca3af;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+@media (max-width: 700px) {
+  .nutrition-goal-card {
+    padding: 16px;
+  }
+
+  .nutrition-goal-title {
+    font-size: 22px;
+  }
+
+  .nutrition-goal-calories {
+    font-size: 26px;
+  }
+  .nutrition-goal-grid,
+.nutrition-goal-card,
+.nutrition-macro-list,
+.nutrition-macro-row {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.nutrition-macro-row {
+  min-width: 0;
+}
+
+.nutrition-macro-row span,
+.nutrition-macro-row strong {
+  overflow-wrap: anywhere;
+}
+}

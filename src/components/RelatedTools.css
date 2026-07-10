@@ -1,0 +1,28 @@
+.related-tools-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.related-tool-card {
+  display: block;
+  padding: 16px;
+  border-radius: 14px;
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #f9fafb;
+  text-decoration: none;
+}
+
+.related-tool-card:hover {
+  border-color: #c084fc;
+  transform: translateY(-2px);
+}
+
+.related-tool-card h3 {
+  margin: 0 0 8px;
+}
+
+.related-tool-card p {
+  margin: 0;
+  color: #d1d5db;
+}
