@@ -1,203 +1,762 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+/* ==================================================
+   TOOLSETS — UNIT CONVERTER
+   ================================================== */
 
-  &:hover {
-    border-color: var(--accent-border);
+:root {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #f9fafb;
+  background: #09090b;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  --converter-background: #09090b;
+  --converter-background-soft: #111827;
+  --converter-card: rgba(24, 24, 27, 0.9);
+  --converter-card-dark: #070b12;
+
+  --converter-text: #f9fafb;
+  --converter-muted: #9ca3af;
+
+  --converter-border: #27272a;
+  --converter-border-light: #374151;
+
+  --converter-accent: #a855f7;
+  --converter-accent-dark: #7c3aed;
+  --converter-accent-soft: rgba(168, 85, 247, 0.14);
+
+  --converter-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.45),
+    0 0 35px rgba(168, 85, 247, 0.08);
+}
+
+/* ==================================================
+   SAFE RESET
+   ================================================== */
+
+.converter-page,
+.converter-page * {
+  box-sizing: border-box;
+}
+
+.converter-page button,
+.converter-page input,
+.converter-page select {
+  font: inherit;
+}
+
+/* ==================================================
+   PAGE
+   ================================================== */
+
+.converter-page {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+
+  padding: 70px 20px;
+
+  overflow-x: hidden;
+
+  color: var(--converter-text);
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(126, 34, 206, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #09090b 0%,
+      #0d0d12 50%,
+      #111827 100%
+    );
+}
+
+.converter-container {
+  width: 100%;
+  max-width: 700px;
+  min-width: 0;
+
+  margin: 0 auto;
+}
+
+/* Prevent children from forcing the page wider */
+.converter-container > *,
+.converter-card > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* ==================================================
+   HEADER
+   ================================================== */
+
+.converter-header {
+  margin-bottom: 38px;
+  text-align: center;
+}
+
+.converter-title {
+  margin: 18px 0 0;
+
+  color: #ffffff;
+
+  font-size: clamp(2.25rem, 8vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+
+  overflow-wrap: anywhere;
+}
+
+.converter-description {
+  max-width: 600px;
+  margin: 18px auto 0;
+
+  color: var(--converter-muted);
+
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* ==================================================
+   BACK BUTTON
+   ================================================== */
+
+.converter-page .back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: auto;
+  margin-bottom: 16px;
+  padding: 8px 13px;
+
+  color: #c4b5fd;
+  background: var(--converter-accent-soft);
+
+  border: 1px solid rgba(168, 85, 247, 0.28);
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.converter-page .back-button:hover {
+  color: #ffffff;
+  background: rgba(168, 85, 247, 0.22);
+  border-color: var(--converter-accent);
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.18);
+}
+
+.converter-page .back-button:active {
+  transform: translateY(0);
+}
+
+.converter-page .back-button:focus-visible {
+  outline: 2px solid var(--converter-accent);
+  outline-offset: 4px;
+}
+
+/* ==================================================
+   CONVERTER CARD
+   ================================================== */
+
+.converter-card {
+  width: 100%;
+  max-width: 700px;
+  min-width: 0;
+
+  margin: 0 auto;
+  padding: 32px;
+
+  overflow: hidden;
+
+  background: var(--converter-card);
+
+  border: 1px solid var(--converter-border);
+  border-radius: 24px;
+
+  box-shadow: var(--converter-shadow);
+
+  backdrop-filter: blur(18px);
+}
+
+/* ==================================================
+   SEARCH
+   ================================================== */
+
+.converter-search {
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  padding: 15px 17px;
+
+  color: #ffffff;
+  background: var(--converter-background-soft);
+
+  border: 2px solid var(--converter-accent);
+  border-radius: 14px;
+  outline: none;
+
+  font-size: 18px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(168, 85, 247, 0.08);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.converter-search:focus {
+  border-color: var(--converter-accent);
+
+  box-shadow:
+    0 0 0 4px rgba(168, 85, 247, 0.12),
+    0 0 22px rgba(168, 85, 247, 0.12);
+}
+
+.converter-search::placeholder {
+  color: #6b7280;
+}
+
+/* ==================================================
+   EXAMPLES AND CATEGORIES
+   ================================================== */
+
+/*
+   These selectors support the most common wrapper names.
+   They prevent chips from forcing horizontal overflow.
+*/
+
+.example-chips,
+.examples-row,
+.converter-examples,
+.category-buttons,
+.categories-row,
+.converter-categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  width: 100%;
+  min-width: 0;
+
+  gap: 8px;
+}
+
+.example-chip,
+.category-button {
+  width: auto;
+  max-width: 100%;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.example-chip {
+  flex: 0 1 auto;
+
+  padding: 6px 11px;
+
+  color: #d1d5db;
+  background: #111827;
+
+  border: 1px solid #374151;
+  border-radius: 999px;
+
+  font-size: 12px;
+  line-height: 1.25;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.example-chip:hover {
+  color: #ffffff;
+  background: #1f2937;
+  border-color: var(--converter-accent);
+}
+
+.category-button {
+  flex: 0 1 auto;
+
+  padding: 7px 13px;
+
+  color: #d1d5db;
+  background: #1f2937;
+
+  border: 1px solid #374151;
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.category-button:hover {
+  color: #ffffff;
+  border-color: #6b7280;
+
+  transform: translateY(-1px);
+}
+
+.category-button.active {
+  color: #ffffff;
+  background: var(--converter-accent);
+  border-color: var(--converter-accent);
+
+  box-shadow: 0 5px 18px rgba(168, 85, 247, 0.28);
+}
+
+/* ==================================================
+   CONVERSION CONTROLS
+   ================================================== */
+
+/*
+   This supports several likely class names for the
+   From / Swap / To row.
+*/
+
+.converter-controls,
+.converter-row,
+.unit-select-row,
+.conversion-row,
+.select-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  width: 100%;
+  min-width: 0;
+
+  gap: 16px;
+}
+
+.converter-input,
+.converter-select {
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  padding: 13px 15px;
+
+  color: #ffffff;
+  background: var(--converter-card-dark);
+
+  border: 1px solid var(--converter-border-light);
+  border-radius: 12px;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.converter-input:hover,
+.converter-select:hover {
+  border-color: #52525b;
+}
+
+.converter-input:focus,
+.converter-select:focus {
+  border-color: var(--converter-accent);
+
+  box-shadow:
+    0 0 0 4px rgba(168, 85, 247, 0.12),
+    0 0 22px rgba(168, 85, 247, 0.12);
+}
+
+.converter-input::placeholder {
+  color: #6b7280;
+}
+
+/* Prevent long option labels from widening the select */
+.converter-select {
+  text-overflow: ellipsis;
+}
+
+/* ==================================================
+   SWAP BUTTON
+   ================================================== */
+
+.converter-page .swap-button {
+  display: flex;
+  flex: 0 0 auto;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 56px;
+  min-width: 56px;
+  height: 56px;
+
+  padding: 0;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--converter-accent),
+      var(--converter-accent-dark)
+    );
+
+  border: none;
+  border-radius: 50%;
+
+  font-size: 26px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.42);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.converter-page .swap-button:hover {
+  transform: rotate(180deg) scale(1.05);
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.6);
+}
+
+.converter-page .swap-button:active {
+  transform: rotate(180deg) scale(0.96);
+}
+
+.converter-page .swap-button:focus-visible {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 4px;
+}
+
+/* ==================================================
+   RESULT
+   ================================================== */
+
+.converter-result {
+  width: 100%;
+  min-width: 0;
+
+  margin-top: 22px;
+  padding: 22px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 24, 39, 0.98),
+      rgba(15, 15, 22, 0.98)
+    );
+
+  border: 1px solid #374151;
+  border-radius: 17px;
+
+  text-align: center;
+}
+
+.converter-result .result-label {
+  color: #9ca3af;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.converter-result .result-value {
+  max-width: 100%;
+
+  margin-top: 9px;
+
+  color: #ffffff;
+
+  font-size: clamp(26px, 7vw, 34px);
+  font-weight: 750;
+  line-height: 1.15;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.converter-result .result-description {
+  margin-top: 6px;
+
+  color: var(--converter-muted);
+
+  font-size: 14px;
+
+  overflow-wrap: anywhere;
+}
+
+/* ==================================================
+   ERROR
+   ================================================== */
+
+.converter-error {
+  width: 100%;
+
+  margin: 8px 0 0;
+
+  color: #f87171;
+
+  font-size: 14px;
+
+  overflow-wrap: anywhere;
+}
+
+/* ==================================================
+   MOBILE
+   ================================================== */
+
+@media (max-width: 640px) {
+  .converter-page {
+    padding: 28px 10px;
   }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+
+  .converter-container {
+    max-width: 100%;
+  }
+
+  .converter-header {
+    margin-bottom: 24px;
+  }
+
+  .converter-title {
+    font-size: clamp(2rem, 11vw, 2.75rem);
+  }
+
+  .converter-description {
+    margin-top: 12px;
+
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .converter-card {
+    max-width: 100%;
+
+    padding: 18px 12px;
+
+    border-radius: 18px;
+  }
+
+  .converter-search {
+    padding: 13px 12px;
+
+    font-size: 16px;
+  }
+
+  .example-chips,
+  .examples-row,
+  .converter-examples,
+  .category-buttons,
+  .categories-row,
+  .converter-categories {
+    gap: 6px;
+  }
+
+  .example-chip {
+    padding: 6px 9px;
+    font-size: 11px;
+  }
+
+  .category-button {
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+
+  /*
+     Stack From / Swap / To vertically.
+  */
+
+  .converter-controls,
+  .converter-row,
+  .unit-select-row,
+  .conversion-row,
+  .select-row {
+    grid-template-columns: minmax(0, 1fr);
+
+    justify-items: stretch;
+
+    gap: 12px;
+  }
+
+  .converter-input,
+  .converter-select {
+    width: 100%;
+    min-width: 0;
+
+    padding: 12px 11px;
+
+    font-size: 15px;
+  }
+
+  .converter-page .swap-button {
+    justify-self: center;
+
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+
+    font-size: 20px;
+  }
+
+  .converter-result {
+    padding: 18px 12px;
+  }
+
+  .converter-result .result-value {
+    font-size: clamp(25px, 9vw, 32px);
   }
 }
 
-.hero {
-  position: relative;
+/* ==================================================
+   VERY SMALL PHONES
+   ================================================== */
 
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
+@media (max-width: 380px) {
+  .converter-page {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .converter-card {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .converter-title {
+    font-size: 1.9rem;
+  }
+
+  .example-chip,
+  .category-button {
+    font-size: 11px;
+  }
+}
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.converter-page,
+.converter-container,
+.converter-card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.converter-card * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.converter-search,
+.converter-input,
+.converter-select {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .converter-page {
+    width: 100vw;
+    max-width: 100vw;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .converter-container {
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
   }
 
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
+  .converter-card {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
-  .framework,
-  .vite {
-    position: absolute;
+  .converter-header,
+  .converter-search,
+  .converter-result {
+    width: 100%;
+    max-width: 100%;
   }
 
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
+  .converter-controls,
+  .converter-row,
+  .unit-select-row,
+  .conversion-row,
+  .select-row {
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
+  .example-chips,
+  .examples-row,
+  .converter-examples,
+  .category-buttons,
+  .categories-row,
+  .converter-categories {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
-}
-
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
-}
-
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
-}
-
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
-}
-
-.ticks {
-  position: relative;
-  width: 100%;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
-
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
-}
-.converter-card {
-  max-width: 700px;
-  margin: 40px auto;
-  padding: 32px;
-  border-radius: 20px;
-  background: #1c1c1c;
-  box-shadow: 0 8px 30px rgba(0,0,0,.4);
-}
- .back-button {
-  display: inline-block;
-  margin-bottom: 12px;
-  color: #9ca3af;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.back-button:hover {
-  color: white;
 }
