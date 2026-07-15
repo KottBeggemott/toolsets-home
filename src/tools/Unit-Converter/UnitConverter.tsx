@@ -5,187 +5,35 @@ import {
   categoryLabels,
   type Category,
 } from "./UnitData";
-import { aliases } from "./UnitAliases";
 import { exampleQueries } from "./UnitExamples";
 import { getEasterEgg } from "./UnitEasterEggs";
+import { convertTemperature } from "./TemperatureUtils";
 import {
-  gasMarkToCelsius,
-  celsiusToGasMark,
-} from "./GasMark";
+  formatNumber,
+  metersToFeetInches,
+  feetInchesToMeters,
+  formatTimeForTarget,
+} from "./FormatUtils";
+import {
+  parseInput,
+  resolveUnit,
+} from "./UnitParser";
 
-function resolveUnit(token: string): { category: Category; unit: string } | null {
-  const raw = token.trim();
-  if (!raw) return null;
-  const lower = raw.toLowerCase();
-
-  if (aliases[lower]) return aliases[lower];
-
-  for (const cat of Object.keys(units) as Category[]) {
-    for (const u of Object.keys(units[cat])) {
-      if (u.toLowerCase() === lower) return { category: cat, unit: u };
-    }
-  }
-  return null;
-}
-
-function temperatureToKelvin(value: number, from: string): number {
-  if (from === "K") return value;
-  if (from === "C") return value + 273.15;
-  if (from === "F") return (value - 32) * (5 / 9) + 273.15;
-  return value;
-}
-
-function convertTemperature(value: number, from: string, to: string): number {
-  const kelvin = temperatureToKelvin(value, from);
-
-if (kelvin < 0) {
-  return NaN;
-}
-  let celsius: number;
-
-if (from === "C")
-    celsius = value;
-else if (from === "F")
-    celsius = (value - 32) * (5 / 9);
-else if (from === "gasMark")
-    celsius = gasMarkToCelsius(value);
-else
-    celsius = value - 273.15;
-
-  if (to === "C") return celsius;
-if (to === "F") return celsius * (9 / 5) + 32;
-if (to === "gasMark") return celsiusToGasMark(celsius);
-return celsius + 273.15;
-}
-
-function convert(value: number, from: string, to: string, category: Category): number {
-  if (category === "temperature") return convertTemperature(value, from, to);
-  return (value * units[category][from].value) / units[category][to].value;
-}
-
-function parseInput(input: string): { value: number | null; from: string; to?: string } | null {
-  const cleaned = input
-  .trim()
-  .replace(/,/g, "")
-  .replace(/feet and inches/gi, "ftin")
-  .replace(/feet and inch/gi, "ftin")
-  .replace(/foot and inches/gi, "ftin")
-  .replace(/foot and inch/gi, "ftin")
-  .replace(/feet inches/gi, "ftin")
-  .replace(/foot inches/gi, "ftin")
-  .replace(/ft and in/gi, "ftin")
-  .replace(/ft in/gi, "ftin")
-  .replace(/height/gi, "ftin");
-  const feetInchesMatch = cleaned.match(
-  /(\d+(?:\.\d+)?)\s*(?:ft|feet|foot|')\s*(\d+(?:\.\d+)?)?\s*(?:in|inch|inches|")?/i
-);
-
-if (feetInchesMatch) {
-  const feet = parseFloat(feetInchesMatch[1]);
-  const inches = feetInchesMatch[2]
-    ? parseFloat(feetInchesMatch[2])
-    : 0;
-
-  const meters = (feet * 12 + inches) * 0.0254;
-  const toMatch = cleaned.match(/\s+(?:to|in|=|-|->)\s+(.+)$/i);
-  const toUnitText = toMatch ? toMatch[1].trim() : "cm";
-  const resolvedTo = resolveUnit(toUnitText);
-
-  return {
-    value: meters,
-    from: "m",
-    to: resolvedTo?.unit ?? "cm",
-  };
-}
-  // Match: number + unit (+ optional "to"/"in"/"=" + unit)
-  const regex = /^(-?\d+(?:\.\d+)?(?:e-?\d+)?)\s*([a-zA-Zµ°/ ]+?)(?:\s+(?:to|in|=|->)\s+([a-zA-Zµ°/ ]+))?\s*$/i;
-  const match = cleaned.match(regex);
-  if (!match) return null;
-
-  return {
-    value: match[1] !== undefined ? parseFloat(match[1]) : null,
-    from: match[2].trim(),
-    to: match[3]?.trim(),
-  };
-}
-
-function formatNumber(n: number): string {
-  if (!isFinite(n)) return "—";
-  const abs = Math.abs(n);
-  if (abs !== 0 && (abs < 0.0001 || abs >= 1e15)) {
-    return n.toExponential(6);
-  }
-  return n.toLocaleString(undefined, { minimumFractionDigits: 0,
-    maximumFractionDigits: 3,
-   });
-}
-function metersToFeetInches(meters: number): string {
-  const totalInches = meters / 0.0254;
-  const feet = Math.floor(totalInches / 12);
-  const inches = Math.round(totalInches % 12);
-
-  return `${feet} ft ${inches} in`;
-}
-function feetInchesToMeters(text: string): number {
-  const match = text.match(
-    /(\d+(?:\.\d+)?)\s*(?:ft|feet|foot|')\s*(\d+(?:\.\d+)?)?\s*(?:in|inch|inches|")?/i
-  );
-
-  if (!match) return parseFloat(text) * 0.3048;
-
-  const feet = parseFloat(match[1]);
-  const inches = match[2] ? parseFloat(match[2]) : 0;
-
-  return (feet * 12 + inches) * 0.0254;
-}
-
-function formatTimeSmart(seconds: number): string {
-  if (!isFinite(seconds)) return "";
-  let remaining = Math.round(seconds);
-  const years = Math.floor(remaining / 31536000);
-  remaining %= 31536000;
-  const months = Math.floor(remaining / 2629800);
-  remaining %= 2629800;
-  const days = Math.floor(remaining / 86400);
-  remaining %= 86400;
-  const hours = Math.floor(remaining / 3600);
-  remaining %= 3600;
-  const minutes = Math.floor(remaining / 60);
-  const secs = remaining % 60;
-  const parts: string[] = [];
-
-  if (years > 0) parts.push(`${years} yr`);
-  if (months > 0) parts.push(`${months} mo`);
-  if (days > 0) parts.push(`${days} d`);
-  if (hours > 0) parts.push(`${hours} h`);
-  if (minutes > 0) parts.push(`${minutes} min`);
-  if (secs > 0 || parts.length === 0) parts.push(`${secs} sec`);
-
-  return parts.join(" ");
-}
-function formatTimeForTarget(seconds: number, target: string): string {
-  if (!isFinite(seconds)) return "";
-
-  const totalSeconds = Math.round(seconds);
-
-  if (target === "wk") {
-    const weeks = Math.floor(totalSeconds / 604800);
-    const days = Math.floor((totalSeconds % 604800) / 86400);
-    return days > 0 ? `${weeks} wk ${days} d` : `${weeks} wk`;
+function convert(
+  value: number,
+  from: string,
+  to: string,
+  category: Category
+): number {
+  if (category === "temperature") {
+    return convertTemperature(value, from, to);
   }
 
-  if (target === "yr") {
-    return formatTimeSmart(totalSeconds);
-  }
-
-  if (target === "mo") {
-    const months = Math.floor(totalSeconds / 2629800);
-    const days = Math.floor((totalSeconds % 2629800) / 86400);
-    return days > 0 ? `${months} mo ${days} d` : `${months} mo`;
-  }
-
-  return formatTimeSmart(totalSeconds);
+  return (
+    value * units[category][from].value
+  ) / units[category][to].value;
 }
+
 function getResultUnitLabel(category: Category, unit: string): string {
   if (category === "temperature" && unit === "gasMark") {
     return "Gas Mark";

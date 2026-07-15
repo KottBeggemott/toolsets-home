@@ -121,10 +121,62 @@ export const aliases: Record<string, { category: Category; unit: string }> = {
   teaspoon: { category: "volume", unit: "tsp" },
   teaspoons: { category: "volume", unit: "tsp" },
 
-  kmh: { category: "speed", unit: "km/h" },
-  kph: { category: "speed", unit: "km/h" },
-  knots: { category: "speed", unit: "kt" },
-  knot: { category: "speed", unit: "kt" },
+  // Kilometres per hour
+kmh: { category: "speed", unit: "km/h" },
+kph: { category: "speed", unit: "km/h" },
+"km/hr": { category: "speed", unit: "km/h" },
+
+kilometerperhour: { category: "speed", unit: "km/h" },
+kilometersperhour: { category: "speed", unit: "km/h" },
+kilometreperhour: { category: "speed", unit: "km/h" },
+kilometresperhour: { category: "speed", unit: "km/h" },
+
+"kilometer per hour": { category: "speed", unit: "km/h" },
+"kilometers per hour": { category: "speed", unit: "km/h" },
+"kilometre per hour": { category: "speed", unit: "km/h" },
+"kilometres per hour": { category: "speed", unit: "km/h" },
+
+// Miles per hour
+mph: { category: "speed", unit: "mph" },
+mileperhour: { category: "speed", unit: "mph" },
+milesperhour: { category: "speed", unit: "mph" },
+
+"mile per hour": { category: "speed", unit: "mph" },
+"miles per hour": { category: "speed", unit: "mph" },
+
+// Metres per second
+mps: { category: "speed", unit: "m/s" },
+"m/sec": { category: "speed", unit: "m/s" },
+
+meterpersecond: { category: "speed", unit: "m/s" },
+meterspersecond: { category: "speed", unit: "m/s" },
+metrepersecond: { category: "speed", unit: "m/s" },
+metrespersecond: { category: "speed", unit: "m/s" },
+
+"meter per second": { category: "speed", unit: "m/s" },
+"meters per second": { category: "speed", unit: "m/s" },
+"metre per second": { category: "speed", unit: "m/s" },
+"metres per second": { category: "speed", unit: "m/s" },
+
+// Feet per second
+fps: { category: "speed", unit: "ft/s" },
+ftsec: { category: "speed", unit: "ft/s" },
+"ft/sec": { category: "speed", unit: "ft/s" },
+
+footpersecond: { category: "speed", unit: "ft/s" },
+feetpersecond: { category: "speed", unit: "ft/s" },
+
+"foot per second": { category: "speed", unit: "ft/s" },
+"feet per second": { category: "speed", unit: "ft/s" },
+
+// Knots
+kt: { category: "speed", unit: "kt" },
+kn: { category: "speed", unit: "kt" },
+knot: { category: "speed", unit: "kt" },
+knots: { category: "speed", unit: "kt" },
+
+"nautical mile per hour": { category: "speed", unit: "kt" },
+"nautical miles per hour": { category: "speed", unit: "kt" },
 
   celsius: { category: "temperature", unit: "C" },
   c: { category: "temperature", unit: "C" },
