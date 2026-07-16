@@ -1,3 +1,4 @@
+import "./App.css";
 import CompoundInterestCalculator from "./tools/compound-interest/CompoundInterestCalculator";
 import WorldCupMatchPredictor from "./tools/world-cup-match-predictor/WorldCupMatchPredictor";
 import WorldCupTimezoneConverter from "./tools/world-cup-timezone-converter/WorldCupTimezoneConverter";
@@ -39,7 +40,7 @@ if (window.location.pathname === "/bmi-calculator") {
 if (window.location.pathname === "/unit-converter") {
   return <UnitConverter />;
 }
-  const tools = [
+    /*
     {
       name: "World Cup Time Zone Converter",
       url: "/world-cup-timezone-converter",
@@ -50,47 +51,58 @@ if (window.location.pathname === "/unit-converter") {
       url: "/world-cup-match-predictor",
       description: "Generate fun World Cup score predictions.",
     },
-    {
-      name: "Unit Converter",
-      url: "/unit-converter",
-      description: "Convert length, weight, time and more.",
-    },
-    {
-      name: "BMI Calculator",
-      url: "/bmi-calculator",
-      description: "Calculate BMI, body fat and healthy weight range.",
-    },
-    {
-      name: "TDEE Calculator",
-      url: "/tdee-calculator",
-      description: "Calculate maintenance calories, fat loss and muscle gain targets.",
-    },
-    {
-      name: "Body Fat Calculator",
-      url: "/body-fat-calculator",
-      description: "Estimate your body fat percentage using the U.S. Navy formula.",
-    },
-    {
-  name: "Compound Interest Calculator",
-  url: "/compound-interest",
-  description: "Calculate investment growth with compound interest.",
-},
-{
-  name: "Percentage Calculator",
-  url: "/percentage-calculator",
-  description: "Calculate percentages, increases, decreases, discounts and markups.",
-},
-{
-  name: "Savings Calculator",
-  url: "/savings-calculator",
-  description: "Calculate how long it takes to reach your savings goal.",
-},
-{
-  name: "Loan Calculator",
-  url: "/loan-calculator",
-  description: "Estimate monthly payments and total loan interest.",
-},
-  ];
+    */
+    const healthTools = [
+  {
+    name: "BMI Calculator",
+    url: "/bmi-calculator",
+    description: "Calculate BMI, body fat and healthy weight range.",
+  },
+  {
+    name: "TDEE Calculator",
+    url: "/tdee-calculator",
+    description:
+      "Calculate maintenance calories, fat loss and muscle gain targets.",
+  },
+  {
+    name: "Body Fat Calculator",
+    url: "/body-fat-calculator",
+    description:
+      "Estimate your body fat percentage using the U.S. Navy formula.",
+  },
+];
+
+const financeTools = [
+  {
+    name: "Compound Interest Calculator",
+    url: "/compound-interest",
+    description: "Calculate investment growth with compound interest.",
+  },
+  {
+    name: "Savings Calculator",
+    url: "/savings-calculator",
+    description: "Calculate how long it takes to reach your savings goal.",
+  },
+  {
+    name: "Loan Calculator",
+    url: "/loan-calculator",
+    description: "Estimate monthly payments and total loan interest.",
+  },
+];
+
+const utilityTools = [
+  {
+    name: "Unit Converter",
+    url: "/unit-converter",
+    description: "Convert length, weight, time and more.",
+  },
+  {
+    name: "Percentage Calculator",
+    url: "/percentage-calculator",
+    description:
+      "Calculate percentages, increases, decreases, discounts and markups.",
+  },
+];
 
   return (
     <div className="container">
@@ -100,18 +112,61 @@ if (window.location.pathname === "/unit-converter") {
         Simple, fast and free online tools.
       </p>
 
-      <div className="grid">
-        {tools.map((tool) => (
-          <a
-            key={tool.name}
-            href={tool.url}
-            className="card"
-          >
-            <h2>{tool.name}</h2>
-            <p>{tool.description}</p>
-          </a>
-        ))}
-      </div>
+     <div className="category-grid">
+  <section className="category-section">
+    <h2>Health</h2>
+
+    <div className="tool-stack">
+      {healthTools.map((tool) => (
+        <a
+          key={tool.name}
+          href={tool.url}
+          className="card"
+        >
+          <h3>{tool.name}</h3>
+          <p>{tool.description}</p>
+          <span>Open →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section className="category-section">
+    <h2>Finance</h2>
+
+    <div className="tool-stack">
+      {financeTools.map((tool) => (
+        <a
+          key={tool.name}
+          href={tool.url}
+          className="card"
+        >
+          <h3>{tool.name}</h3>
+          <p>{tool.description}</p>
+          <span>Open →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section className="category-section">
+    <h2>Utilities</h2>
+
+    <div className="tool-stack">
+      {utilityTools.map((tool) => (
+        <a
+          key={tool.name}
+          href={tool.url}
+          className="card"
+        >
+          <h3>{tool.name}</h3>
+          <p>{tool.description}</p>
+          <span>Open →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</div>
     </div>
   );
 }
