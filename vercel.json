@@ -39,6 +39,11 @@
     {
       "source": "/loan-calculator/:path*",
       "destination": "/index.html"
+    },
+    {
+      "source": "/age-calculator/:path*",
+      "destination": "/index.html"
     }
+
   ]
 }
