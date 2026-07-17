@@ -9,6 +9,7 @@ import SavingsCalculator from "./tools/savings-calculator/SavingsCalculator";
 import LoanCalculator from "./tools/loan-calculator/LoanCalculator";
 import BMICalculator from "./tools/BMI-Calculator/BMICalculator";
 import UnitConverter from "./tools/Unit-Converter/UnitConverter";
+import AgeCalculator from "./tools/age-calculator/AgeCalculator";
 function App() {
   if (window.location.pathname === "/compound-interest") {
   return <CompoundInterestCalculator />;
@@ -39,6 +40,9 @@ if (window.location.pathname === "/bmi-calculator") {
 }
 if (window.location.pathname === "/unit-converter") {
   return <UnitConverter />;
+}
+if (window.location.pathname === "/age-calculator") {
+  return <AgeCalculator />;
 }
     /*
     {
@@ -102,6 +106,12 @@ const utilityTools = [
     description:
       "Calculate percentages, increases, decreases, discounts and markups.",
   },
+  {
+  name: "Age Calculator",
+  url: "/age-calculator",
+  description:
+    "Calculate your exact age, total days lived and time until your next birthday.",
+}
 ];
 
   return (

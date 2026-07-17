@@ -2,21 +2,7 @@
    TOOLSETS — UNIT CONVERTER
    ================================================== */
 
-:root {
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  color: #f9fafb;
-  background: #09090b;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-
+.converter-page {
   --converter-background: #09090b;
   --converter-background-soft: #111827;
   --converter-card: rgba(24, 24, 27, 0.9);
@@ -32,14 +18,26 @@
   --converter-accent-dark: #7c3aed;
   --converter-accent-soft: rgba(168, 85, 247, 0.14);
 
-  --converter-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.45),
-    0 0 35px rgba(168, 85, 247, 0.08);
-}
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  padding: 64px 20px 80px;
 
-/* ==================================================
-   SAFE RESET
-   ================================================== */
+  color: var(--converter-text);
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(126, 34, 206, 0.14),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #09090b 0%,
+      #0d0d12 50%,
+      #111827 100%
+    );
+}
 
 .converter-page,
 .converter-page * {
@@ -52,48 +50,11 @@
   font: inherit;
 }
 
-/* ==================================================
-   PAGE
-   ================================================== */
-
-.converter-page {
-  width: 100%;
-  min-width: 0;
-  min-height: 100vh;
-
-  padding: 70px 20px;
-
-  overflow-x: hidden;
-
-  color: var(--converter-text);
-
-  background:
-    radial-gradient(
-      circle at top,
-      rgba(126, 34, 206, 0.12),
-      transparent 35%
-    ),
-    linear-gradient(
-      145deg,
-      #09090b 0%,
-      #0d0d12 50%,
-      #111827 100%
-    );
-}
-
 .converter-container {
   width: 100%;
-  max-width: 700px;
+  max-width: 760px;
   min-width: 0;
-
   margin: 0 auto;
-}
-
-/* Prevent children from forcing the page wider */
-.converter-container > *,
-.converter-card > * {
-  min-width: 0;
-  max-width: 100%;
 }
 
 /* ==================================================
@@ -101,36 +62,9 @@
    ================================================== */
 
 .converter-header {
-  margin-bottom: 38px;
+  margin-bottom: 32px;
   text-align: center;
 }
-
-.converter-title {
-  margin: 18px 0 0;
-
-  color: #ffffff;
-
-  font-size: clamp(2.25rem, 8vw, 4rem);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.045em;
-
-  overflow-wrap: anywhere;
-}
-
-.converter-description {
-  max-width: 600px;
-  margin: 18px auto 0;
-
-  color: var(--converter-muted);
-
-  font-size: 17px;
-  line-height: 1.6;
-}
-
-/* ==================================================
-   BACK BUTTON
-   ================================================== */
 
 .converter-page .back-button {
   display: inline-flex;
@@ -138,17 +72,17 @@
   justify-content: center;
 
   width: auto;
-  margin-bottom: 16px;
-  padding: 8px 13px;
+  margin-bottom: 18px;
+  padding: 9px 15px;
 
   color: #c4b5fd;
   background: var(--converter-accent-soft);
 
-  border: 1px solid rgba(168, 85, 247, 0.28);
+  border: 1px solid rgba(168, 85, 247, 0.32);
   border-radius: 999px;
 
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
 
   transition:
@@ -166,29 +100,70 @@
 
   transform: translateY(-1px);
 
-  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.18);
-}
-
-.converter-page .back-button:active {
-  transform: translateY(0);
+  box-shadow:
+    0 6px 20px rgba(168, 85, 247, 0.18);
 }
 
 .converter-page .back-button:focus-visible {
-  outline: 2px solid var(--converter-accent);
+  outline: 2px solid #c4b5fd;
   outline-offset: 4px;
 }
 
+.converter-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+
+  color: #d1d5db;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.converter-eyebrow-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+
+  color: #c084fc;
+}
+
+.converter-title {
+  margin: 14px 0 0;
+
+  color: #ffffff;
+
+  font-size: clamp(2.3rem, 8vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+
+  overflow-wrap: anywhere;
+}
+
+.converter-description {
+  max-width: 620px;
+  margin: 14px auto 0;
+
+  color: var(--converter-muted);
+
+  font-size: 17px;
+  line-height: 1.55;
+}
+
 /* ==================================================
-   CONVERTER CARD
+   MAIN CARD
    ================================================== */
 
 .converter-card {
   width: 100%;
-  max-width: 700px;
   min-width: 0;
-
-  margin: 0 auto;
-  padding: 32px;
+  padding: 30px;
 
   overflow: hidden;
 
@@ -197,7 +172,9 @@
   border: 1px solid var(--converter-border);
   border-radius: 24px;
 
-  box-shadow: var(--converter-shadow);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.45),
+    0 0 35px rgba(168, 85, 247, 0.08);
 
   backdrop-filter: blur(18px);
 }
@@ -211,8 +188,6 @@
 
   width: 100%;
   min-width: 0;
-  max-width: 100%;
-
   padding: 15px 17px;
 
   color: #ffffff;
@@ -230,36 +205,34 @@
 
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .converter-search:focus {
-  border-color: var(--converter-accent);
-
   box-shadow:
     0 0 0 4px rgba(168, 85, 247, 0.12),
-    0 0 22px rgba(168, 85, 247, 0.12);
+    0 0 22px rgba(168, 85, 247, 0.16);
 }
 
-.converter-search::placeholder {
+.converter-search::placeholder,
+.converter-input::placeholder {
   color: #6b7280;
+}
+
+.converter-error {
+  margin: 10px 0 0;
+
+  color: #f87171;
+
+  font-size: 14px;
+  text-align: left;
 }
 
 /* ==================================================
    EXAMPLES AND CATEGORIES
    ================================================== */
 
-/*
-   These selectors support the most common wrapper names.
-   They prevent chips from forcing horizontal overflow.
-*/
-
-.example-chips,
-.examples-row,
 .converter-examples,
-.category-buttons,
-.categories-row,
 .converter-categories {
   display: flex;
   flex-wrap: wrap;
@@ -271,18 +244,32 @@
   gap: 8px;
 }
 
+.converter-examples {
+  margin-top: 12px;
+}
+
+.converter-categories {
+  margin-top: 12px;
+}
+
 .example-chip,
 .category-button {
   width: auto;
   max-width: 100%;
 
+  cursor: pointer;
   white-space: normal;
-  overflow-wrap: anywhere;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .example-chip {
   flex: 0 1 auto;
-
   padding: 6px 11px;
 
   color: #d1d5db;
@@ -293,13 +280,6 @@
 
   font-size: 12px;
   line-height: 1.25;
-
-  cursor: pointer;
-
-  transition:
-    color 0.2s ease,
-    background-color 0.2s ease,
-    border-color 0.2s ease;
 }
 
 .example-chip:hover {
@@ -310,7 +290,6 @@
 
 .category-button {
   flex: 0 1 auto;
-
   padding: 7px 13px;
 
   color: #d1d5db;
@@ -320,15 +299,7 @@
   border-radius: 999px;
 
   font-size: 13px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-    color 0.2s ease,
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
+  font-weight: 700;
 }
 
 .category-button:hover {
@@ -343,45 +314,64 @@
   background: var(--converter-accent);
   border-color: var(--converter-accent);
 
-  box-shadow: 0 5px 18px rgba(168, 85, 247, 0.28);
+  box-shadow:
+    0 5px 18px rgba(168, 85, 247, 0.28);
 }
 
 /* ==================================================
-   CONVERSION CONTROLS
+   MANUAL CONVERSION
    ================================================== */
 
-/*
-   This supports several likely class names for the
-   From / Swap / To row.
-*/
+.converter-manual-section {
+  display: grid;
+  gap: 20px;
 
-.converter-controls,
-.converter-row,
-.unit-select-row,
-.conversion-row,
-.select-row {
+  width: 100%;
+  min-width: 0;
+  margin-top: 24px;
+}
+
+.converter-controls {
   display: grid;
   grid-template-columns:
     minmax(0, 1fr)
     auto
     minmax(0, 1fr);
 
-  align-items: center;
+  align-items: end;
 
   width: 100%;
   min-width: 0;
 
-  gap: 16px;
+  gap: 18px;
 }
 
-.converter-input,
-.converter-select {
+.converter-field {
+  display: grid;
+  gap: 8px;
+
+  min-width: 0;
+}
+
+.converter-field-label,
+.converter-value-label {
+  color: #d1d5db;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.converter-field-label {
+  text-align: left;
+}
+
+.converter-select,
+.converter-input {
   display: block;
 
   width: 100%;
   min-width: 0;
   max-width: 100%;
-
   padding: 13px 15px;
 
   color: #ffffff;
@@ -393,17 +383,20 @@
 
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
-.converter-input:hover,
-.converter-select:hover {
+.converter-select {
+  text-overflow: ellipsis;
+}
+
+.converter-select:hover,
+.converter-input:hover {
   border-color: #52525b;
 }
 
-.converter-input:focus,
-.converter-select:focus {
+.converter-select:focus,
+.converter-input:focus {
   border-color: var(--converter-accent);
 
   box-shadow:
@@ -411,30 +404,14 @@
     0 0 22px rgba(168, 85, 247, 0.12);
 }
 
-.converter-input::placeholder {
-  color: #6b7280;
-}
-
-/* Prevent long option labels from widening the select */
-.converter-select {
-  text-overflow: ellipsis;
-}
-
-/* ==================================================
-   SWAP BUTTON
-   ================================================== */
-
 .converter-page .swap-button {
   display: flex;
-  flex: 0 0 auto;
-
   align-items: center;
   justify-content: center;
 
-  width: 56px;
-  min-width: 56px;
-  height: 56px;
-
+  width: 54px;
+  min-width: 54px;
+  height: 54px;
   padding: 0;
 
   color: #ffffff;
@@ -449,12 +426,13 @@
   border: none;
   border-radius: 50%;
 
-  font-size: 26px;
+  font-size: 25px;
   line-height: 1;
 
   cursor: pointer;
 
-  box-shadow: 0 0 18px rgba(168, 85, 247, 0.42);
+  box-shadow:
+    0 0 18px rgba(168, 85, 247, 0.42);
 
   transition:
     transform 0.2s ease,
@@ -463,7 +441,9 @@
 
 .converter-page .swap-button:hover {
   transform: rotate(180deg) scale(1.05);
-  box-shadow: 0 0 25px rgba(168, 85, 247, 0.6);
+
+  box-shadow:
+    0 0 25px rgba(168, 85, 247, 0.6);
 }
 
 .converter-page .swap-button:active {
@@ -475,6 +455,17 @@
   outline-offset: 4px;
 }
 
+.converter-value-field {
+  display: grid;
+  gap: 9px;
+
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+
+  text-align: center;
+}
+
 /* ==================================================
    RESULT
    ================================================== */
@@ -482,8 +473,7 @@
 .converter-result {
   width: 100%;
   min-width: 0;
-
-  margin-top: 22px;
+  margin-top: 24px;
   padding: 22px;
 
   overflow: hidden;
@@ -505,7 +495,7 @@
   color: #9ca3af;
 
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
 
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -513,17 +503,15 @@
 
 .converter-result .result-value {
   max-width: 100%;
-
   margin-top: 9px;
 
   color: #ffffff;
 
   font-size: clamp(26px, 7vw, 34px);
-  font-weight: 750;
+  font-weight: 800;
   line-height: 1.15;
 
   overflow-wrap: anywhere;
-  word-break: break-word;
 }
 
 .converter-result .result-description {
@@ -532,24 +520,18 @@
   color: var(--converter-muted);
 
   font-size: 14px;
+  line-height: 1.4;
 
   overflow-wrap: anywhere;
 }
 
-/* ==================================================
-   ERROR
-   ================================================== */
+.converter-footer-note {
+  margin-top: 20px;
 
-.converter-error {
-  width: 100%;
+  color: #9ca3af;
 
-  margin: 8px 0 0;
-
-  color: #f87171;
-
-  font-size: 14px;
-
-  overflow-wrap: anywhere;
+  font-size: 13px;
+  text-align: center;
 }
 
 /* ==================================================
@@ -558,11 +540,7 @@
 
 @media (max-width: 640px) {
   .converter-page {
-    padding: 28px 10px;
-  }
-
-  .converter-container {
-    max-width: 100%;
+    padding: 28px 12px 48px;
   }
 
   .converter-header {
@@ -581,9 +559,7 @@
   }
 
   .converter-card {
-    max-width: 100%;
-
-    padding: 18px 12px;
+    padding: 18px 14px;
 
     border-radius: 18px;
   }
@@ -594,49 +570,48 @@
     font-size: 16px;
   }
 
-  .example-chips,
-  .examples-row,
-  .converter-examples,
-  .category-buttons,
-  .categories-row,
+  .converter-examples {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+
+    overflow-x: auto;
+    padding-bottom: 5px;
+
+    scrollbar-width: none;
+  }
+
+  .converter-examples::-webkit-scrollbar {
+    display: none;
+  }
+
+  .example-chip {
+    flex: 0 0 auto;
+
+    padding: 6px 9px;
+
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
   .converter-categories {
     gap: 6px;
   }
 
-  .example-chip {
-    padding: 6px 9px;
-    font-size: 11px;
-  }
-
   .category-button {
     padding: 7px 11px;
+
     font-size: 12px;
   }
 
-  /*
-     Stack From / Swap / To vertically.
-  */
-
-  .converter-controls,
-  .converter-row,
-  .unit-select-row,
-  .conversion-row,
-  .select-row {
+  .converter-controls {
     grid-template-columns: minmax(0, 1fr);
-
-    justify-items: stretch;
+    align-items: stretch;
 
     gap: 12px;
   }
 
-  .converter-input,
-  .converter-select {
-    width: 100%;
-    min-width: 0;
-
-    padding: 12px 11px;
-
-    font-size: 15px;
+  .converter-field-label {
+    text-align: center;
   }
 
   .converter-page .swap-button {
@@ -649,6 +624,13 @@
     font-size: 20px;
   }
 
+  .converter-select,
+  .converter-input {
+    padding: 12px 11px;
+
+    font-size: 15px;
+  }
+
   .converter-result {
     padding: 18px 12px;
   }
@@ -657,10 +639,6 @@
     font-size: clamp(25px, 9vw, 32px);
   }
 }
-
-/* ==================================================
-   VERY SMALL PHONES
-   ================================================== */
 
 @media (max-width: 380px) {
   .converter-page {
@@ -675,88 +653,5 @@
 
   .converter-title {
     font-size: 1.9rem;
-  }
-
-  .example-chip,
-  .category-button {
-    font-size: 11px;
-  }
-}
-html,
-body,
-#root {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-.converter-page,
-.converter-container,
-.converter-card {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  overflow-x: hidden;
-}
-
-.converter-card * {
-  min-width: 0;
-  max-width: 100%;
-}
-
-.converter-search,
-.converter-input,
-.converter-select {
-  width: 100%;
-  max-width: 100%;
-}
-
-@media (max-width: 640px) {
-  .converter-page {
-    width: 100vw;
-    max-width: 100vw;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .converter-container {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-  }
-
-  .converter-card {
-    width: 100%;
-    max-width: 100%;
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  .converter-header,
-  .converter-search,
-  .converter-result {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .converter-controls,
-  .converter-row,
-  .unit-select-row,
-  .conversion-row,
-  .select-row {
-    width: 100%;
-    max-width: 100%;
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .example-chips,
-  .examples-row,
-  .converter-examples,
-  .category-buttons,
-  .categories-row,
-  .converter-categories {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
   }
 }

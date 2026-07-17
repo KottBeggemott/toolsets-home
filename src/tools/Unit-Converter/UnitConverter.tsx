@@ -1,29 +1,35 @@
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Sparkles } from "lucide-react";
+
 import {
   units,
   categoryLabels,
   type Category,
 } from "./UnitData";
+
 import { exampleQueries } from "./UnitExamples";
 import { getEasterEgg } from "./UnitEasterEggs";
 import { convertTemperature } from "./TemperatureUtils";
+
 import {
-  formatNumber,
-  metersToFeetInches,
   feetInchesToMeters,
+  formatNumber,
   formatTimeForTarget,
+  metersToFeetInches,
 } from "./FormatUtils";
+
 import {
   parseInput,
   resolveUnit,
 } from "./UnitParser";
 
+import "./UnitConverter.css";
+
 function convert(
   value: number,
   from: string,
   to: string,
-  category: Category
+  category: Category,
 ): number {
   if (category === "temperature") {
     return convertTemperature(value, from, to);
@@ -34,7 +40,10 @@ function convert(
   ) / units[category][to].value;
 }
 
-function getResultUnitLabel(category: Category, unit: string): string {
+function getResultUnitLabel(
+  category: Category,
+  unit: string,
+): string {
   if (category === "temperature" && unit === "gasMark") {
     return "Gas Mark";
   }
@@ -43,424 +52,410 @@ function getResultUnitLabel(category: Category, unit: string): string {
 }
 
 export default function Converter() {
-  const [category, setCategory] = useState<Category>("length");
+  const [category, setCategory] =
+    useState<Category>("length");
+
   const [value, setValue] = useState("");
-  const [from, setFrom] = useState<string>("m");
-  const [to, setTo] = useState<string>("ft");
-  const [input, setInput] = useState<string>("");
-  const [parseError, setParseError] = useState<string>("");
+  const [from, setFrom] = useState("m");
+  const [to, setTo] = useState("ft");
+
+  const [input, setInput] = useState("");
+  const [parseError, setParseError] = useState("");
 
   const easterEgg = getEasterEgg(input);
 
-  const numericValue =
-  value === "" || value === null
-    ? 0
-    : from === "ftin"
-      ? feetInchesToMeters(value)
-      : parseFloat(value) || 0;
+  const options = Object.keys(units[category]);
+
+  const numericValue = useMemo(() => {
+    if (value.trim() === "") {
+      return 0;
+    }
+
+    if (from === "ftin") {
+      return feetInchesToMeters(value);
+    }
+
+    const parsedValue = Number.parseFloat(value);
+
+    return Number.isFinite(parsedValue)
+      ? parsedValue
+      : 0;
+  }, [value, from]);
+
   const result = useMemo(
-    () => convert(numericValue, from, to, category),
+    () => convert(
+      numericValue,
+      from,
+      to,
+      category,
+    ),
     [numericValue, from, to, category],
   );
-  const options = Object.keys(units[category]);
-  const resultUnitLabel = getResultUnitLabel(category, to);
 
-  // Smart parsing
+  const resultUnitLabel =
+    getResultUnitLabel(category, to);
+
   useEffect(() => {
-    if (!input.trim()) {
+    const trimmedInput = input.trim();
+
+    if (!trimmedInput) {
       setParseError("");
       return;
     }
-   const gasMarkFirstMatch = input.match(
-  /(?:gas\s*mark|oven\s*gas|gas\s*oven|uk\s*gas\s*mark)\s*(\d+(?:\.\d+)?)\s*(?:to|in)\s*(c|f|k|celsius|fahrenheit|kelvin)/i
-);
 
-if (gasMarkFirstMatch) {
-  const value = Number(gasMarkFirstMatch[1]);
-  const target = gasMarkFirstMatch[2].toLowerCase();
+    const gasMarkFirstMatch = trimmedInput.match(
+      /(?:gas\s*mark|oven\s*gas|gas\s*oven|uk\s*gas\s*mark)\s*(\d+(?:\.\d+)?)\s*(?:to|in)\s*(c|f|k|celsius|fahrenheit|kelvin)/i,
+    );
 
-  const targetUnit =
-    target === "c" || target === "celsius"
-      ? "C"
-      : target === "f" || target === "fahrenheit"
-      ? "F"
-      : "K";
+    if (gasMarkFirstMatch) {
+      const parsedValue = Number(
+        gasMarkFirstMatch[1],
+      );
 
-  setCategory("temperature");
-  setFrom("gasMark");
-  setTo(targetUnit);
-  setValue(String(value));
-  return;
-}
-    const parsed = parseInput(input);
+      const target =
+        gasMarkFirstMatch[2].toLowerCase();
+
+      const targetUnit =
+        target === "c" || target === "celsius"
+          ? "C"
+          : target === "f" ||
+              target === "fahrenheit"
+            ? "F"
+            : "K";
+
+      setParseError("");
+      setCategory("temperature");
+      setFrom("gasMark");
+      setTo(targetUnit);
+      setValue(String(parsedValue));
+
+      return;
+    }
+
+    const parsed = parseInput(trimmedInput);
+
     if (!parsed) {
       setParseError("");
       return;
     }
 
     const fromInfo = resolveUnit(parsed.from);
+
     if (!fromInfo) {
-      setParseError(`Don't recognize "${parsed.from}"`);
+      setParseError(
+        `Don't recognize "${parsed.from}"`,
+      );
+
       return;
     }
 
     if (parsed.to) {
       const toInfo = resolveUnit(parsed.to);
+
       if (!toInfo) {
-        setParseError(`Don't recognize "${parsed.to}"`);
+        setParseError(
+          `Don't recognize "${parsed.to}"`,
+        );
+
         return;
       }
+
       if (toInfo.category !== fromInfo.category) {
-        setParseError(`Can't convert ${fromInfo.category} to ${toInfo.category}`);
+        setParseError(
+          `Can't convert ${fromInfo.category} to ${toInfo.category}`,
+        );
+
         return;
       }
+
       setParseError("");
       setCategory(fromInfo.category);
       setFrom(fromInfo.unit);
       setTo(toInfo.unit);
+
       if (parsed.value !== null) {
         setValue(String(parsed.value));
       }
-    } else {
-      setParseError("");
-      setCategory(fromInfo.category);
-      setFrom(fromInfo.unit);
-      // Pick a sensible default destination if current `to` doesn't match category
-      const catUnits = Object.keys(units[fromInfo.category]);
-      const fallback = catUnits.find((u) => u !== fromInfo.unit) ?? fromInfo.unit;
-      if (!units[fromInfo.category][to]) setTo(fallback);
-      if (parsed.value !== null) {
-        setValue(String(parsed.value));
-      }
+
+      return;
     }
-    
+
+    const categoryUnits =
+      Object.keys(units[fromInfo.category]);
+
+    const fallbackUnit =
+      categoryUnits.find(
+        (unit) => unit !== fromInfo.unit,
+      ) ?? fromInfo.unit;
+
+    setParseError("");
+    setCategory(fromInfo.category);
+    setFrom(fromInfo.unit);
+    setTo(fallbackUnit);
+
+    if (parsed.value !== null) {
+      setValue(String(parsed.value));
+    }
   }, [input]);
 
-  // When category changes from dropdown, reset units
-  const handleCategoryChange = (cat: Category) => {
-    setCategory(cat);
-    const keys = Object.keys(units[cat]);
-    setFrom(keys[0]);
-    setTo(keys[1] ?? keys[0]);
+  const handleCategoryChange = (
+    nextCategory: Category,
+  ) => {
+    const categoryUnits =
+      Object.keys(units[nextCategory]);
+
+    setCategory(nextCategory);
+    setFrom(categoryUnits[0]);
+    setTo(categoryUnits[1] ?? categoryUnits[0]);
+
     setInput("");
     setParseError("");
   };
 
-  const swap = () => {
+  const handleSwap = () => {
     setFrom(to);
     setTo(from);
   };
 
+  const getMainResult = (): string => {
+    if (easterEgg) {
+      return easterEgg.title;
+    }
+
+    if (
+      category === "temperature" &&
+      !Number.isFinite(result)
+    ) {
+      return "Below absolute zero";
+    }
+
+    if (to === "ftin") {
+      return metersToFeetInches(
+        numericValue *
+          units[category][from].value,
+      );
+    }
+
+    return `${formatNumber(result)} ${resultUnitLabel}`;
+  };
+
+  const getResultDescription = (): string => {
+    if (easterEgg) {
+      return easterEgg.subtitle;
+    }
+
+    if (
+      category === "temperature" &&
+      !Number.isFinite(result)
+    ) {
+      return "Temperature cannot go below 0 K (-273.15 °C or -459.67 °F)";
+    }
+
+    if (to === "ftin") {
+      return metersToFeetInches(
+        numericValue *
+          units[category][from].value,
+      );
+    }
+
+    if (category === "time") {
+      return formatTimeForTarget(
+        numericValue *
+          units[category][from].value,
+        to,
+      );
+    }
+
+    return `${formatNumber(result)} ${resultUnitLabel}`;
+  };
+
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-background via-background to-muted/40 text-foreground">
-      <div className="mx-auto max-w-2xl px-4 py-12 sm:py-20">
-        <header className="mb-10 text-center">
+    <div className="converter-page">
+      <div className="converter-container">
+        <header className="converter-header">
           <a href="/" className="back-button">
-          ← Back to Toolsets
+            ← Back to Toolsets
           </a>
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs font-medium text-muted-foreground">
-            <Sparkles className="h-3.5 w-3.5" />
-            Type naturally — like a search bar
+
+          <div className="converter-eyebrow">
+            <Sparkles
+              className="converter-eyebrow-icon"
+              aria-hidden="true"
+            />
+
+            <span>
+              Type naturally — like a search bar
+            </span>
           </div>
-          <h1 style={{ color: "white" }}className="text-6xl font-extrabold tracking-tight">
+
+          <h1 className="converter-title">
             Instant Unit Converter
           </h1>
-          <p className="mt-4 text-lg text-gray-400">
-            Length, mass, volume, speed, temperature, and time — all in one place.
+
+          <p className="converter-description">
+            Length, mass, volume, speed,
+            temperature, and time — all in one
+            place.
           </p>
         </header>
 
-        <div className="rounded-3xl border border-zinc-800 bg-zinc-900/80 p-8 shadow-2xl backdrop-blur">
-          {/* Search-style input */}
-          <div className="relative">
-            <input
-              type="text"
-              inputMode="text"
-              autoFocus
-              placeholder="e.g. 100 kg to lb"
-              className="w-full rounded-2xl border-2 px-6 py-4 text-xl outline-none shadow-xl"
-              style={{
-                backgroundColor: "#111827",
-                color: "white",
-                border: "2px solid #a855f7",
-                padding: "14px 16px",
-                fontSize: "18px",
-                borderRadius: "14px",
-                width: "100%",
-                maxWidth: "900px",
-                margin: "0 auto",
-                display: "block",
-                boxSizing: "border-box"
-              }}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-          </div>
+        <main className="converter-card">
+          <input
+            type="text"
+            inputMode="text"
+            autoFocus
+            className="converter-search"
+            placeholder="e.g. 100 kg to lb"
+            value={input}
+            onChange={(event) =>
+              setInput(event.target.value)
+            }
+          />
 
           {parseError && (
-            <p className="mt-2 text-sm text-destructive">{parseError}</p>
+            <p
+              className="converter-error"
+              role="alert"
+            >
+              {parseError}
+            </p>
           )}
 
-          {/* Example chips */}
-          <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            gap: "8px",
-            justifyContent: window.innerWidth < 640 ? "flex-start" : "center",
-            overflowX: window.innerWidth < 640 ? "auto" : "visible",
-            flexWrap: window.innerWidth < 640 ? "nowrap" : "wrap",
-            whiteSpace: window.innerWidth < 640 ? "nowrap" : "normal",
-            padding: "0 12px 6px",
-            maxWidth: "100%",
-            scrollbarWidth: "none",
-          }}
-          >
-            {exampleQueries.map((q) => (
+          <div className="converter-examples">
+            {exampleQueries.map((query) => (
               <button
-                key={q}
-                onClick={() => setInput(q)}
-                style={{
-                  backgroundColor: "#111827",
-                  color: "#d1d5db",
-                  border: "1px solid #374151",
-                  borderRadius: "9999px",
-                  padding: "4px 10px",
-                  margin: "2px",
-                  cursor: "pointer",
-                  fontSize: "12px",
-                  flex: "0 0 auto",
-                }}
+                key={query}
+                type="button"
+                className="example-chip"
+                onClick={() => setInput(query)}
               >
-                {q}
+                {query}
               </button>
             ))}
           </div>
 
-          {/* Category tabs */}
-          <div className="mt-2 flex flex-wrap justify-center gap-1">
-            {(Object.keys(categoryLabels) as Category[]).map((cat) => (
+          <div className="converter-categories">
+            {(
+              Object.keys(
+                categoryLabels,
+              ) as Category[]
+            ).map((categoryKey) => (
               <button
-                key={cat}
-                onClick={() => handleCategoryChange(cat)}
-                className=""
-                style={{
-                  backgroundColor: category === cat ? "a855f7" : "1f2937",
-                  color: "white",
-                  border: "1px solid #374151",
-                  borderRadius: "9999px",
-                  padding: "7px 12px",
-                  margin: "2px",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                  fontSize: "13px",
-                  transition: "all 2.0 ease",
-                }}
+                key={categoryKey}
+                type="button"
+                className={`category-button ${
+                  category === categoryKey
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  handleCategoryChange(
+                    categoryKey,
+                  )
+                }
               >
-                {categoryLabels[cat]}
+                {categoryLabels[categoryKey]}
               </button>
             ))}
           </div>
-{/* Manual selectors */}
-<div
-  style={{
-    marginTop: "20px",
-    display: "14",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "28px",
-  }}
->
-  {/* From / Swap / To row */}
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns:
-      window.innerWidth < 640 ? "minmax(0, 1fr) 44px minmax(0, 1fr)" : "280px 72px 280px",
-      gap: window.innerWidth < 640 ? "4px" : "28px",
-      alignItems: "center",
-      justifyContent: "center",
-      width: "100%",
-      maxWidth: "720px",
-      margin: "0 auto",
-    }}
-  >
-    <div>
-      <label style={{
-        display: window.innerWidth < 640 ? "block" : "none",
-        marginBottom: "10px",
-        color: "#d1d5db"
-      }}>
-        From
-      </label>
 
-      <select
-        value={from}
-        onChange={(e) => setFrom(e.target.value)}
-        style={{
-          maxWidth: "100%",
-          minWidth: "0",
-          boxSizing: "border-box",
-          width: "100%",
-          overflow: "hidden",
-          padding: window.innerWidth < 640 ? "10px 8px" : "14px 16px",
-          borderRadius: "12px",
-          backgroundColor: "#070b12",
-          color: "white",
-          border: "1px solid #374151",
-          fontSize: window.innerWidth < 640 ? "13px" : "16px",
-        }}
-      >
-        {options.map((u) => (
-          <option key={u} value={u}>
-            {units[category][u].label}
-          </option>
-        ))}
-      </select>
-    </div>
+          <section className="converter-manual-section">
+            <div className="converter-controls">
+              <label className="converter-field">
+                <span className="converter-field-label">
+                  From
+                </span>
 
-    <button
-      onClick={swap}
-      aria-label="Swap units"
-      style={{
-        width: window.innerWidth < 640 ? "42px" : "56px",
-        height: window.innerWidth < 640 ? "42px" : "56px",
-        borderRadius: "9999px",
-        backgroundColor: "#7c3aed",
-        boxShadow: "0 0 15px rgba(168, 85, 247, 0.5)",
-        color: "white",
-        border: "none",
-        fontSize: window.innerWidth < 640 ? "20px" : "26px",
-        cursor: "pointer",
-        justifySelf: "center",
-        alignSelf: "center",
-      }}
-    >
-      ⇄
-    </button>
+                <select
+                  className="converter-select"
+                  value={from}
+                  onChange={(event) =>
+                    setFrom(event.target.value)
+                  }
+                >
+                  {options.map((unit) => (
+                    <option
+                      key={unit}
+                      value={unit}
+                    >
+                      {units[category][unit].label}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-    <div>
-      <label style={{ 
-        display: window.innerWidth < 640 ? "block" : "none",
-        marginBottom: "10px",
-        color: "#d1d5db"
-      }}>
-        To
-      </label>
+              <button
+                type="button"
+                className="swap-button"
+                aria-label="Swap units"
+                onClick={handleSwap}
+              >
+                ⇄
+              </button>
 
-      <select
-        value={to}
-        onChange={(e) => setTo(e.target.value)}
-        style={{
-          maxWidth: "100%",
-          minWidth: "0",
-          boxSizing: "border-box",
-          width: "100%",
-          overflow: "hidden",
-          padding: window.innerWidth < 640 ? "10px 8px" : "14px 16px",
-          borderRadius: "12px",
-          backgroundColor: "#070b12",
-          color: "white",
-          border: "1px solid #374151",
-          fontSize: window.innerWidth < 640 ? "13px" : "16px",
-        }}
-      >
-        {options.map((u) => (
-          <option key={u} value={u}>
-            {units[category][u].label}
-          </option>
-        ))}
-      </select>
-    </div>
-  </div>
+              <label className="converter-field">
+                <span className="converter-field-label">
+                  To
+                </span>
 
-  {/* Value input below From/To */}
-  <div
-  style={{
-    width: "100%",
-    maxWidth: "560px",
-    margin: "12px auto 0",
-    textAlign: "center",
-  }}
->
-    <label
-      style={{
-        display: "block",
-        marginBottom: "10px",
-        color: "#d1d5db",
-        textAlign: "center",
-      }}
-    >
-      Enter value
-    </label>
+                <select
+                  className="converter-select"
+                  value={to}
+                  onChange={(event) =>
+                    setTo(event.target.value)
+                  }
+                >
+                  {options.map((unit) => (
+                    <option
+                      key={unit}
+                      value={unit}
+                    >
+                      {units[category][unit].label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
 
-    <input
-      type="text"
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      placeholder="Enter a number"
-      style={{
-        width: "100%",
-        maxWidth: "560px",
-        padding: "12px 16px",
-        borderRadius: "12px",
-        backgroundColor: "#070b12",
-        color: "white",
-        border: "1px solid #374151",
-        fontSize: "16px",
-      }}
-    />
-  </div>
-</div>          
-          {/* Result */}
-          <div
-            style={{
-              marginTop: "20px",
-              padding: "20px",
-              borderRadius: "16px",
-              backgroundColor: "#111827",
-              border: "1px solid #374151",
-            }}
+            <label className="converter-value-field">
+              <span className="converter-value-label">
+                Enter value
+              </span>
+
+              <input
+                type="text"
+                inputMode="decimal"
+                className="converter-input"
+                value={value}
+                placeholder="Enter a number"
+                onChange={(event) =>
+                  setValue(event.target.value)
+                }
+              />
+            </label>
+          </section>
+
+          <section
+            className="converter-result"
+            aria-live="polite"
           >
-            <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <div className="result-label">
               Result
             </div>
-            <div
-            style={{
-              marginTop: "8px",
-              fontSize: "32px",
-              fontWeight: "700",
-              color: "ffffff",
-              lineHeight: "1.1",
-              textShadow: "none",
-            }}
-            >
-            {easterEgg
-            ?easterEgg.title
-            : category === "temperature" && !isFinite(result)
-             ? "Below absolute zero"
-             : to === "ftin"
-             ? metersToFeetInches(numericValue * units[category][from].value)
-             : `${formatNumber(result)} ${resultUnitLabel}`
-             }
-            </div>
-            <div className="mt-1 text-sm text-muted-foreground">
-             {easterEgg
-             ? easterEgg.subtitle
-             : category === "temperature" && !isFinite(result)
-             ? "Temperature cannot go below 0 K (-273.15 °C or -459.67 °F)"
-             : to === "ftin"
-             ? metersToFeetInches(numericValue * units[category][from].value)
-             : category === "time"
-             ? formatTimeForTarget(numericValue * units[category][from].value, to)
-             : `${formatNumber(result)} ${resultUnitLabel}`
-             }
-            </div>
-          </div>
-        </div>
 
-        <p className="mt-6 text-center text-xs text-muted-foreground">
-          Try natural language like "5 miles in km" or "350 F to C"
+            <div className="result-value">
+              {getMainResult()}
+            </div>
+
+            <div className="result-description">
+              {getResultDescription()}
+            </div>
+          </section>
+        </main>
+
+        <p className="converter-footer-note">
+          Try natural language like “5 miles in
+          km” or “350 F to C”
         </p>
       </div>
     </div>

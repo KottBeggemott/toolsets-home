@@ -116,3 +116,29 @@
   box-sizing: border-box;
 }
 }
+.birthday-banner {
+  margin-bottom: 20px;
+  padding: 20px;
+  text-align: center;
+
+  background: linear-gradient(
+    135deg,
+    rgba(168, 85, 247, 0.18),
+    rgba(59, 130, 246, 0.18)
+  );
+
+  border: 1px solid #c084fc;
+  border-radius: 16px;
+}
+
+.birthday-banner h2 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 1.8rem;
+}
+
+.birthday-banner p {
+  margin: 0;
+  color: #d1d5db;
+  line-height: 1.6;
+}
