@@ -1,0 +1,171 @@
+export type TimeZoneOption = {
+  id: string;
+  city: string;
+  country: string;
+  label: string;
+  aliases: string[];
+};
+
+export const timeZones: TimeZoneOption[] = [
+  {
+    id: "Europe/Zurich",
+    city: "Zurich",
+    country: "Switzerland",
+    label: "Zurich, Switzerland",
+    aliases: ["zurich", "switzerland", "swiss", "bern", "geneva", "basel"],
+  },
+  {
+    id: "Europe/London",
+    city: "London",
+    country: "United Kingdom",
+    label: "London, United Kingdom",
+    aliases: ["london", "uk", "united kingdom", "england", "britain", "gmt"],
+  },
+  {
+    id: "Europe/Paris",
+    city: "Paris",
+    country: "France",
+    label: "Paris, France",
+    aliases: ["paris", "france"],
+  },
+  {
+    id: "Europe/Berlin",
+    city: "Berlin",
+    country: "Germany",
+    label: "Berlin, Germany",
+    aliases: ["berlin", "germany", "deutschland"],
+  },
+  {
+    id: "Europe/Vilnius",
+    city: "Vilnius",
+    country: "Lithuania",
+    label: "Vilnius, Lithuania",
+    aliases: ["vilnius", "lithuania", "lietuva"],
+  },
+  {
+    id: "Europe/Moscow",
+    city: "Moscow",
+    country: "Russia",
+    label: "Moscow, Russia",
+    aliases: ["moscow", "russia", "moskva"],
+  },
+  {
+    id: "America/New_York",
+    city: "New York",
+    country: "United States",
+    label: "New York, United States",
+    aliases: ["new york", "ny", "nyc", "eastern time", "est", "edt"],
+  },
+  {
+    id: "America/Chicago",
+    city: "Chicago",
+    country: "United States",
+    label: "Chicago, United States",
+    aliases: ["chicago", "central time", "cst", "cdt"],
+  },
+  {
+    id: "America/Denver",
+    city: "Denver",
+    country: "United States",
+    label: "Denver, United States",
+    aliases: ["denver", "mountain time", "mst", "mdt"],
+  },
+  {
+    id: "America/Los_Angeles",
+    city: "Los Angeles",
+    country: "United States",
+    label: "Los Angeles, United States",
+    aliases: ["los angeles", "la", "california", "pacific time", "pst", "pdt"],
+  },
+  {
+    id: "America/Toronto",
+    city: "Toronto",
+    country: "Canada",
+    label: "Toronto, Canada",
+    aliases: ["toronto", "canada"],
+  },
+  {
+    id: "America/Sao_Paulo",
+    city: "São Paulo",
+    country: "Brazil",
+    label: "São Paulo, Brazil",
+    aliases: ["sao paulo", "são paulo", "brazil", "brasil"],
+  },
+  {
+    id: "Asia/Dubai",
+    city: "Dubai",
+    country: "United Arab Emirates",
+    label: "Dubai, United Arab Emirates",
+    aliases: ["dubai", "uae", "united arab emirates"],
+  },
+  {
+    id: "Asia/Kolkata",
+    city: "New Delhi",
+    country: "India",
+    label: "New Delhi, India",
+    aliases: ["new delhi", "delhi", "india", "kolkata", "ist"],
+  },
+  {
+    id: "Asia/Bangkok",
+    city: "Bangkok",
+    country: "Thailand",
+    label: "Bangkok, Thailand",
+    aliases: ["bangkok", "thailand"],
+  },
+  {
+    id: "Asia/Singapore",
+    city: "Singapore",
+    country: "Singapore",
+    label: "Singapore",
+    aliases: ["singapore"],
+  },
+  {
+    id: "Asia/Hong_Kong",
+    city: "Hong Kong",
+    country: "Hong Kong",
+    label: "Hong Kong",
+    aliases: ["hong kong"],
+  },
+  {
+    id: "Asia/Shanghai",
+    city: "Shanghai",
+    country: "China",
+    label: "Shanghai, China",
+    aliases: ["shanghai", "china", "beijing"],
+  },
+  {
+    id: "Asia/Tokyo",
+    city: "Tokyo",
+    country: "Japan",
+    label: "Tokyo, Japan",
+    aliases: ["tokyo", "japan", "jst"],
+  },
+  {
+    id: "Asia/Seoul",
+    city: "Seoul",
+    country: "South Korea",
+    label: "Seoul, South Korea",
+    aliases: ["seoul", "south korea", "korea"],
+  },
+  {
+    id: "Australia/Perth",
+    city: "Perth",
+    country: "Australia",
+    label: "Perth, Australia",
+    aliases: ["perth", "western australia"],
+  },
+  {
+    id: "Australia/Sydney",
+    city: "Sydney",
+    country: "Australia",
+    label: "Sydney, Australia",
+    aliases: ["sydney", "australia", "new south wales"],
+  },
+  {
+    id: "Pacific/Auckland",
+    city: "Auckland",
+    country: "New Zealand",
+    label: "Auckland, New Zealand",
+    aliases: ["auckland", "new zealand", "nz"],
+  },
+];

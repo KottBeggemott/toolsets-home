@@ -1,0 +1,218 @@
+.timezone-calculator {
+  width: min(100%, 900px);
+  margin: 0 auto;
+}
+
+.timezone-calculator__header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.timezone-calculator__header h1 {
+  margin-bottom: 0.75rem;
+}
+
+.timezone-calculator__header p {
+  margin: 0;
+  color: #a9b0bd;
+}
+
+.timezone-calculator__controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.timezone-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.timezone-field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.timezone-field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 0.9rem;
+  border: 1px solid #363d49;
+  border-radius: 10px;
+  background: #1c212b;
+  color: #ffffff;
+  font: inherit;
+}
+
+.timezone-field select:focus {
+  outline: 2px solid #7583ff;
+  outline-offset: 2px;
+}
+
+.timezone-swap-button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  place-items: center;
+  align-self: end;
+
+  border: 1px solid #363d49;
+  border-radius: 10px;
+  background: #252b36;
+  color: #ffffff;
+
+  font-family: Arial, sans-serif;
+  font-size: 1.5rem;
+  line-height: 1;
+
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.timezone-swap-button:hover {
+  background: #303744;
+  transform: scale(1.05);
+}
+
+.timezone-swap-button:focus-visible {
+  outline: 2px solid #7583ff;
+  outline-offset: 2px;
+}
+
+.timezone-swap-button svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.timezone-result {
+  padding: 1.5rem;
+  border: 1px solid #303744;
+  border-radius: 16px;
+  background: #171b23;
+}
+
+.timezone-result__locations {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.timezone-location {
+  min-width: 0;
+  text-align: center;
+}
+
+.timezone-location__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #929baa;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.timezone-location h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.timezone-location__country {
+  margin: 0.2rem 0 0;
+  color: #929baa;
+}
+
+.timezone-location__offset {
+  margin: 0.75rem 0 0.8rem;
+  color: #9aa4b3;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.timezone-location__time {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.timezone-result__arrow {
+  color: #798391;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.timezone-result__summary {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #303744;
+  text-align: center;
+}
+
+.timezone-result__summary-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #929baa;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.timezone-result__difference {
+  display: block;
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+  line-height: 1.2;
+}
+
+.timezone-result__summary p {
+  margin: 0.55rem 0 0;
+  color: #c2c8d2;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+@media (max-width: 650px) {
+  .timezone-calculator__controls {
+    grid-template-columns: 1fr;
+  }
+
+  .timezone-swap-button {
+    width: 52px;
+    height: 52px;
+    margin: 0.25rem auto;
+    justify-self: center;
+    align-self: center;
+    transform: rotate(90deg);
+  }
+
+  .timezone-swap-button:hover {
+    transform: rotate(90deg) scale(1.05);
+  }
+}
+
+@media (max-width: 480px) {
+  .timezone-result {
+    padding: 1.25rem;
+  }
+
+  .timezone-result__locations {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .timezone-result__arrow {
+    transform: rotate(90deg);
+  }
+}

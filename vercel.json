@@ -43,6 +43,10 @@
     {
       "source": "/age-calculator/:path*",
       "destination": "/index.html"
+    },
+    {
+      "source": "/timezone-difference/:path*",
+      "destination": "/index.html"
     }
 
   ]
