@@ -30,18 +30,62 @@ import TimezoneDifferenceCalculator from "./tools/TimezoneDifferenceCalculator/T
     name: "BMI Calculator",
     url: "/bmi-calculator",
     description: "Calculate BMI, body fat and healthy weight range.",
+    keywords: [
+  "bmi",
+  "body mass index",
+  "weight",
+  "height",
+  "health",
+  "fitness",
+  "fat",
+  "obesity",
+  "underweight",
+  "overweight"
+]
   },
   {
     name: "TDEE Calculator",
     url: "/tdee-calculator",
     description:
       "Calculate maintenance calories, fat loss and muscle gain targets.",
+    keywords: [
+  "tdee",
+  "calories",
+  "diet",
+  "nutrition",
+  "maintenance",
+  "cutting",
+  "bulking",
+  "protein",
+  "macros",
+  "weight loss"
+]
   },
   {
     name: "Body Fat Calculator",
     url: "/body-fat-calculator",
     description:
       "Estimate your body fat percentage using the U.S. Navy formula.",
+    keywords: [
+  "body fat",
+  "body fat percentage",
+  "fat",
+  "body composition",
+  "fitness",
+  "health",
+  "lean mass",
+  "muscle",
+  "weight",
+  "waist",
+  "neck",
+  "hip",
+  "navy method",
+  "body fat calculator",
+  "obesity",
+  "weight loss",
+  "cutting",
+  "bulking"
+]
   },
 ];
 
@@ -50,16 +94,60 @@ const financeTools = [
     name: "Compound Interest Calculator",
     url: "/compound-interest",
     description: "Calculate investment growth with compound interest.",
+    keywords: [
+  "compound",
+  "interest",
+  "investment",
+  "investing",
+  "savings",
+  "bank",
+  "money",
+  "wealth",
+  "finance",
+  "returns"
+]
   },
   {
     name: "Savings Calculator",
     url: "/savings-calculator",
     description: "Calculate how long it takes to reach your savings goal.",
+    keywords: [
+  "saving",
+  "savings",
+  "goal",
+  "money",
+  "budget",
+  "finance",
+  "monthly",
+  "deposit",
+  "plan"
+]
   },
   {
     name: "Loan Calculator",
     url: "/loan-calculator",
     description: "Estimate monthly payments and total loan interest.",
+    keywords: [
+  "loan",
+  "mortgage",
+  "credit",
+  "bank",
+  "borrow",
+  "borrowing",
+  "interest",
+  "apr",
+  "repayment",
+  "monthly payment",
+  "payment",
+  "installment",
+  "finance",
+  "debt",
+  "principal",
+  "amortization",
+  "car loan",
+  "home loan",
+  "personal loan"
+]
   },
 ];
 
@@ -68,24 +156,81 @@ const utilityTools = [
     name: "Unit Converter",
     url: "/unit-converter",
     description: "Convert length, weight, time and more.",
+    keywords: [
+  "convert",
+  "conversion",
+  "units",
+  "metric",
+  "imperial",
+  "temperature",
+  "length",
+  "weight",
+  "mass",
+  "distance",
+  "speed",
+  "currency",
+  "gas mark"
+]
   },
   {
     name: "Percentage Calculator",
     url: "/percentage-calculator",
     description:
       "Calculate percentages, increases, decreases, discounts and markups.",
+      keywords: [
+  "percentage",
+  "percent",
+  "%",
+  "increase",
+  "decrease",
+  "discount",
+  "sale",
+  "tax",
+  "vat",
+  "tip",
+  "markup",
+  "profit",
+  "loss",
+  "difference",
+  "ratio",
+  "fraction",
+  "math",
+  "calculate"
+]
   },
   {
   name: "Age Calculator",
   url: "/age-calculator",
   description:
     "Calculate your exact age, total days lived and time until your next birthday.",
+    keywords: [
+  "age",
+  "birthday",
+  "birth",
+  "date",
+  "years",
+  "months",
+  "days",
+  "time",
+  "anniversary"
+]
 },
 {
   name: "Timezone Difference Calculator",
   url: "/timezone-difference",
   description:
     "Calculate the time difference between two locations.",
+    keywords: [
+  "timezone",
+  "time zone",
+  "utc",
+  "gmt",
+  "clock",
+  "meeting",
+  "world",
+  "countries",
+  "travel"
+]
 }
 ];
 
@@ -98,19 +243,20 @@ function App() {
 const matchesSearch = (
   tool: {
     name: string;
-    url: string;
     description: string;
+    keywords?: string[];
   },
   category: string
 ) => {
-  if (!normalizedSearch) {
-    return true;
-  }
+  if (!normalizedSearch) return true;
 
   return (
     tool.name.toLowerCase().includes(normalizedSearch) ||
     tool.description.toLowerCase().includes(normalizedSearch) ||
-    category.toLowerCase().includes(normalizedSearch)
+    category.toLowerCase().includes(normalizedSearch) ||
+    tool.keywords?.some((keyword) =>
+      keyword.toLowerCase().includes(normalizedSearch)
+    )
   );
 };
 
