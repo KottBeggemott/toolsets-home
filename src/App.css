@@ -191,3 +191,29 @@
     padding: 18px;
   }
 }
+.search-container {
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid #363d49;
+  border-radius: 12px;
+  background: #1c212b;
+  color: #fff;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  outline: 2px solid #7583ff;
+  outline-offset: 2px;
+}
+.no-search-results {
+  margin: 3rem auto;
+  text-align: center;
+  color: #a9b0bd;
+  font-size: 1.1rem;
+}

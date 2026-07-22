@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 import CompoundInterestCalculator from "./tools/compound-interest/CompoundInterestCalculator";
 import WorldCupMatchPredictor from "./tools/world-cup-match-predictor/WorldCupMatchPredictor";
@@ -11,44 +12,8 @@ import BMICalculator from "./tools/BMI-Calculator/BMICalculator";
 import UnitConverter from "./tools/Unit-Converter/UnitConverter";
 import AgeCalculator from "./tools/age-calculator/AgeCalculator";
 import TimezoneDifferenceCalculator from "./tools/TimezoneDifferenceCalculator/TimezoneDifferenceCalculator";
-function App() {
-  if (window.location.pathname === "/compound-interest") {
-  return <CompoundInterestCalculator />;
-}
-  if (window.location.pathname === "/tdee-calculator") {
-  return <TDEECalculator />;
-}
-  if (window.location.pathname === "/world-cup-timezone-converter") {
-  return <WorldCupTimezoneConverter />;
-}
-if (window.location.pathname === "/world-cup-match-predictor") {
-  return <WorldCupMatchPredictor />;
-}
-if (window.location.pathname === "/body-fat-calculator") {
-  return <BodyFatCalculator />;
-}
-if (window.location.pathname === "/percentage-calculator") {
-  return <PercentageCalculator />;
-}
-if (window.location.pathname === "/savings-calculator") {
-  return <SavingsCalculator />;
-} 
-if (window.location.pathname === "/loan-calculator") {
-  return <LoanCalculator />;
-}
-if (window.location.pathname === "/bmi-calculator") {
-  return <BMICalculator />;
-}
-if (window.location.pathname === "/unit-converter") {
-  return <UnitConverter />;
-}
-if (window.location.pathname === "/age-calculator") {
-  return <AgeCalculator />;
-}
-if (window.location.pathname === "/timezone-difference") {
-  return <TimezoneDifferenceCalculator />;
-}
-    /*
+
+ /*
     {
       name: "World Cup Time Zone Converter",
       url: "/world-cup-timezone-converter",
@@ -124,6 +89,86 @@ const utilityTools = [
 }
 ];
 
+function App() {
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+
+const matchesSearch = (
+  tool: {
+    name: string;
+    url: string;
+    description: string;
+  },
+  category: string
+) => {
+  if (!normalizedSearch) {
+    return true;
+  }
+
+  return (
+    tool.name.toLowerCase().includes(normalizedSearch) ||
+    tool.description.toLowerCase().includes(normalizedSearch) ||
+    category.toLowerCase().includes(normalizedSearch)
+  );
+};
+
+const filteredHealthTools = healthTools.filter((tool) =>
+  matchesSearch(tool, "health")
+);
+
+const filteredFinanceTools = financeTools.filter((tool) =>
+  matchesSearch(tool, "finance")
+);
+
+const filteredUtilityTools = utilityTools.filter((tool) =>
+  matchesSearch(tool, "utilities")
+);
+
+const hasSearchResults =
+  filteredHealthTools.length > 0 ||
+  filteredFinanceTools.length > 0 ||
+  filteredUtilityTools.length > 0;
+
+  if (window.location.pathname === "/compound-interest") {
+  return <CompoundInterestCalculator />;
+}
+  if (window.location.pathname === "/tdee-calculator") {
+  return <TDEECalculator />;
+}
+  if (window.location.pathname === "/world-cup-timezone-converter") {
+  return <WorldCupTimezoneConverter />;
+}
+if (window.location.pathname === "/world-cup-match-predictor") {
+  return <WorldCupMatchPredictor />;
+}
+if (window.location.pathname === "/body-fat-calculator") {
+  return <BodyFatCalculator />;
+}
+if (window.location.pathname === "/percentage-calculator") {
+  return <PercentageCalculator />;
+}
+if (window.location.pathname === "/savings-calculator") {
+  return <SavingsCalculator />;
+} 
+if (window.location.pathname === "/loan-calculator") {
+  return <LoanCalculator />;
+}
+if (window.location.pathname === "/bmi-calculator") {
+  return <BMICalculator />;
+}
+if (window.location.pathname === "/unit-converter") {
+  return <UnitConverter />;
+}
+if (window.location.pathname === "/age-calculator") {
+  return <AgeCalculator />;
+}
+if (window.location.pathname === "/timezone-difference") {
+  return <TimezoneDifferenceCalculator />;
+}
+   
+
   return (
     <div className="container">
       <h1>Toolsets</h1>
@@ -132,12 +177,23 @@ const utilityTools = [
         Simple, fast and free online tools.
       </p>
 
+      <div className="search-container">
+  <input
+    type="text"
+    placeholder="🔍 Search Toolsets..."
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    className="search-input"
+  />
+</div>
+
      <div className="category-grid">
+      {filteredHealthTools.length > 0 && (
   <section className="category-section">
     <h2>Health</h2>
 
     <div className="tool-stack">
-      {healthTools.map((tool) => (
+      {filteredHealthTools.map((tool) => (
         <a
           key={tool.name}
           href={tool.url}
@@ -150,12 +206,14 @@ const utilityTools = [
       ))}
     </div>
   </section>
+      )}
 
+{filteredFinanceTools.length > 0 && (
   <section className="category-section">
     <h2>Finance</h2>
 
     <div className="tool-stack">
-      {financeTools.map((tool) => (
+      {filteredFinanceTools.map((tool) => (
         <a
           key={tool.name}
           href={tool.url}
@@ -168,12 +226,13 @@ const utilityTools = [
       ))}
     </div>
   </section>
-
+)}
+{filteredUtilityTools.length > 0 && (
   <section className="category-section">
     <h2>Utilities</h2>
 
     <div className="tool-stack">
-      {utilityTools.map((tool) => (
+      {filteredUtilityTools.map((tool) => (
         <a
           key={tool.name}
           href={tool.url}
@@ -186,7 +245,13 @@ const utilityTools = [
       ))}
     </div>
   </section>
+)}
 </div>
+{!hasSearchResults && normalizedSearch && (
+  <p className="no-search-results">
+    No tools found for “{searchQuery}”.
+  </p>
+)}
     </div>
   );
 }
