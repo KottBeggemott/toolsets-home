@@ -12,6 +12,7 @@ import BMICalculator from "./tools/BMI-Calculator/BMICalculator";
 import UnitConverter from "./tools/Unit-Converter/UnitConverter";
 import AgeCalculator from "./tools/age-calculator/AgeCalculator";
 import TimezoneDifferenceCalculator from "./tools/TimezoneDifferenceCalculator/TimezoneDifferenceCalculator";
+import WaistToHeightCalculator from "./tools/waist-to-height-calculator/WaistToHeightCalculator";
 
  /*
     {
@@ -87,6 +88,32 @@ import TimezoneDifferenceCalculator from "./tools/TimezoneDifferenceCalculator/T
   "bulking"
 ]
   },
+  {
+  name: "Waist-to-Height Ratio Calculator",
+  url: "/waist-to-height-calculator",
+  description:
+    "Compare your waist circumference with your height and estimate your health risk.",
+    keywords: [
+  "waist-to-height ratio",
+  "waist",
+  "height",
+  "body composition",
+  "fitness",
+  "health",
+  "lean mass",
+  "muscle",
+  "weight",
+  "waist",
+  "neck",
+  "hip",
+  "navy method",
+  "body fat calculator",
+  "obesity",
+  "weight loss",
+  "cutting",
+  "bulking"
+]
+},
 ];
 
 const financeTools = [
@@ -312,6 +339,9 @@ if (window.location.pathname === "/age-calculator") {
 }
 if (window.location.pathname === "/timezone-difference") {
   return <TimezoneDifferenceCalculator />;
+}
+if (window.location.pathname === "/waist-to-height-calculator") {
+  return <WaistToHeightCalculator />;
 }
    
 

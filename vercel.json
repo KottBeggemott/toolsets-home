@@ -47,6 +47,10 @@
     {
       "source": "/timezone-difference/:path*",
       "destination": "/index.html"
+    },
+    {
+      "source": "/waist-to-height-calculator/:path*",
+      "destination": "/index.html"
     }
 
   ]

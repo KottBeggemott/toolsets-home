@@ -1,0 +1,139 @@
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.input-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #e5e7eb;
+  font-weight: 600;
+}
+
+.input-grid input,
+.input-grid select {
+  background: #111827;
+  border: 1px solid #4b5563;
+  border-radius: 14px;
+  padding: 14px 16px;
+  color: #f9fafb;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-grid input:focus,
+.input-grid select:focus {
+  border-color: #c084fc;
+}
+
+.result-message {
+  margin: 18px 0 0;
+  color: #d1d5db;
+  text-align: center;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .input-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.ratio-visual {
+  margin-top: 32px;
+  padding: 26px 18px 18px;
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 16px;
+}
+
+.ratio-scale {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  height: 18px;
+  border-radius: 999px;
+  overflow: visible;
+}
+
+.ratio-zone {
+  height: 100%;
+}
+
+.ratio-zone:first-child {
+  border-radius: 999px 0 0 999px;
+}
+
+.ratio-zone:last-child {
+  border-radius: 0 999px 999px 0;
+}
+
+.ratio-zone-lean {
+  background: #60a5fa;
+}
+
+.ratio-zone-healthy {
+  background: #34d399;
+}
+
+.ratio-zone-increased {
+  background: #fbbf24;
+}
+
+.ratio-zone-high {
+  background: #f87171;
+}
+
+.ratio-marker {
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 34px;
+  background: #f9fafb;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 2px #111827;
+}
+
+.ratio-marker-value {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: #f9fafb;
+  color: #111827;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ratio-scale-values {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.ratio-scale-labels {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 12px;
+  color: #d1d5db;
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .ratio-visual {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .ratio-scale-labels {
+    font-size: 10px;
+  }
+}
