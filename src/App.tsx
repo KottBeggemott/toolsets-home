@@ -13,6 +13,7 @@ import UnitConverter from "./tools/Unit-Converter/UnitConverter";
 import AgeCalculator from "./tools/age-calculator/AgeCalculator";
 import TimezoneDifferenceCalculator from "./tools/TimezoneDifferenceCalculator/TimezoneDifferenceCalculator";
 import WaistToHeightCalculator from "./tools/waist-to-height-calculator/WaistToHeightCalculator";
+import InvestmentReturnCalculator from "./tools/investment-return-calculator/InvestmentReturnCalculator";
 
  /*
     {
@@ -176,6 +177,47 @@ const financeTools = [
   "personal loan"
 ]
   },
+  {
+  name: "Investment Return Calculator",
+  url: "/investment-return-calculator",
+  description:
+    "Calculate investment profit, total return, and annualized return.",
+    keywords: [
+  "investment return",
+  "investment return calculator",
+  "return on investment",
+  "roi",
+  "roi calculator",
+  "investment profit",
+  "investment loss",
+  "investment gain",
+  "investment performance",
+  "investment growth",
+  "total return",
+  "total return calculator",
+  "annualized return",
+  "annualised return",
+  "annual return",
+  "yearly return",
+  "average annual return",
+  "cagr",
+  "cagr calculator",
+  "compound annual growth rate",
+  "investment multiple",
+  "money multiple",
+  "growth multiple",
+  "portfolio return",
+  "stock return",
+  "fund return",
+  "crypto return",
+  "property investment return",
+  "initial investment",
+  "final investment value",
+  "investment percentage",
+  "profit percentage",
+  "investment calculator"
+]
+},
 ];
 
 const utilityTools = [
@@ -343,7 +385,9 @@ if (window.location.pathname === "/timezone-difference") {
 if (window.location.pathname === "/waist-to-height-calculator") {
   return <WaistToHeightCalculator />;
 }
-   
+if (window.location.pathname === "/investment-return-calculator") {
+  return <InvestmentReturnCalculator />;
+}
 
   return (
     <div className="container">

@@ -179,6 +179,11 @@ Total months: ${result.months}`;
                 url: "/loan-calculator",
                 description: "Estimate monthly loan payments and total interest.",
               },
+              {
+                name: "Investment Return Calculator",
+                url: "/investment-return-calculator",
+                description: "Calculate investment profit and annualized return.",
+              },
             ]}
           />
         }

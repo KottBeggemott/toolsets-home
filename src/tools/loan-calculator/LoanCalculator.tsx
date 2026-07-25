@@ -201,6 +201,11 @@ Principal borrowed: ${money(Number(loanAmount))}`;
                 url: "/compound-interest",
                 description: "Estimate how investments grow over time.",
               },
+              {
+                name: "Investment Return Calculator",
+                url: "/investment-return-calculator",
+                description: "Calculate investment profit and annualized return.",
+              },
             ]}
           />
         }
