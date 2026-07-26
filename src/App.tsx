@@ -3,16 +3,16 @@ import "./App.css";
 import CompoundInterestCalculator from "./tools/compound-interest/CompoundInterestCalculator";
 import WorldCupMatchPredictor from "./tools/world-cup-match-predictor/WorldCupMatchPredictor";
 import WorldCupTimezoneConverter from "./tools/world-cup-timezone-converter/WorldCupTimezoneConverter";
-import TDEECalculator from "./tools/tdee-calculator/TDEECalculator";
-import BodyFatCalculator from "./tools/Body-Fat-Calculator/BodyFatCalculator";
+import TDEECalculator from "./tools/health/tdee-calculator/TDEECalculator";
+import BodyFatCalculator from "./tools/health/body-fat-calculator/BodyFatCalculator";
 import PercentageCalculator from "./tools/percentage-calculator/App.tsx";
 import SavingsCalculator from "./tools/savings-calculator/SavingsCalculator";
 import LoanCalculator from "./tools/loan-calculator/LoanCalculator";
-import BMICalculator from "./tools/BMI-Calculator/BMICalculator";
-import UnitConverter from "./tools/Unit-Converter/UnitConverter";
+import BMICalculator from "./tools/health/bmi-calculator/BMICalculator";
+import UnitConverter from "./tools/unit-converter/UnitConverter.tsx";
 import AgeCalculator from "./tools/age-calculator/AgeCalculator";
-import TimezoneDifferenceCalculator from "./tools/TimezoneDifferenceCalculator/TimezoneDifferenceCalculator";
-import WaistToHeightCalculator from "./tools/waist-to-height-calculator/WaistToHeightCalculator";
+import TimezoneDifferenceCalculator from "./tools/timezone-difference-calculator/TimezoneDifferenceCalculator";
+import WaistToHeightCalculator from "./tools/health/waist-to-height-calculator/WaistToHeightCalculator";
 import InvestmentReturnCalculator from "./tools/investment-return-calculator/InvestmentReturnCalculator";
 
  /*

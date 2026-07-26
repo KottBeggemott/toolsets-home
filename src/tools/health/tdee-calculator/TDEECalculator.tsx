@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
 import "./TDEECalculator.css";
-import CalculatorLayout from "../../components/CalculatorLayout";
-import ActionButtons from "../../components/ActionButtons";
-import FAQ from "../../components/FAQ";
-import RelatedTools from "../../components/RelatedTools";
-import SEO from "../../components/SEO";
-import NumberInput from "../../components/NumberInput";
-import SelectField from "../../components/SelectField";
-import ResultCard from "../../components/ResultCard";
-import NutritionResultCard from "../../components/NutritionResultCard";
+import CalculatorLayout from "../../../components/CalculatorLayout";
+import ActionButtons from "../../../components/ActionButtons";
+import FAQ from "../../../components/FAQ";
+import RelatedTools from "../../../components/RelatedTools";
+import SEO from "../../../components/SEO";
+import NumberInput from "../../../components/NumberInput";
+import SelectField from "../../../components/SelectField";
+import ResultCard from "../../../components/ResultCard";
+import NutritionResultCard from "../../../components/NutritionResultCard";
 
 const macroSplits = {
   highProtein: {
