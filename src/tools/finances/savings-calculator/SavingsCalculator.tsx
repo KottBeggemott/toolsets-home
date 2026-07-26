@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
 import "./SavingsCalculator.css";
-import CalculatorLayout from "../../components/CalculatorLayout";
-import ActionButtons from "../../components/ActionButtons";
-import FAQ from "../../components/FAQ";
-import RelatedTools from "../../components/RelatedTools";
-import SEO from "../../components/SEO";
-import NumberInput from "../../components/NumberInput";
-import SelectField from "../../components/SelectField";
-import { formatDuration } from "../../utils/FormatDuration";
-import ResultCard from "../../components/ResultCard";
+import CalculatorLayout from "../../../components/CalculatorLayout";
+import ActionButtons from "../../../components/ActionButtons";
+import FAQ from "../../../components/FAQ";
+import RelatedTools from "../../../components/RelatedTools";
+import SEO from "../../../components/SEO";
+import NumberInput from "../../../components/NumberInput";
+import SelectField from "../../../components/SelectField";
+import { formatDuration } from "../../../utils/FormatDuration";
+import ResultCard from "../../../components/ResultCard";
 
 function SavingsCalculator() {
   const [startingAmount, setStartingAmount] = useState("500");

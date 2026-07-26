@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
-import CalculatorLayout from "../../components/CalculatorLayout";
-import ActionButtons from "../../components/ActionButtons";
-import FAQ from "../../components/FAQ";
-import RelatedTools from "../../components/RelatedTools";
-import SEO from "../../components/SEO";
-import NumberInput from "../../components/NumberInput";
-import SelectField from "../../components/SelectField";
-import ResultCard from "../../components/ResultCard";
+import CalculatorLayout from "../../../components/CalculatorLayout";
+import ActionButtons from "../../../components/ActionButtons";
+import FAQ from "../../../components/FAQ";
+import RelatedTools from "../../../components/RelatedTools";
+import SEO from "../../../components/SEO";
+import NumberInput from "../../../components/NumberInput";
+import SelectField from "../../../components/SelectField";
+import ResultCard from "../../../components/ResultCard";
 import "./InvestmentReturnCalculator.css";
 
 function InvestmentReturnCalculator() {
