@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./TimezoneDifferenceCalculator.css";
 
-import { timeZones } from "../../components/TimezoneData";
+import { timeZones } from "../../../components/TimezoneData";
 
 import {
   calculateTimeZoneDifference,
@@ -9,7 +9,7 @@ import {
   formatDifferenceSentence,
   getCurrentTimeInTimeZone,
   formatTimeDifference,
-} from "../../components/TimezoneUtils";
+} from "../../../components/TimezoneUtils";
 
 export default function TimeZoneDifferenceCalculator() {
   const [fromZone, setFromZone] = useState("Europe/Zurich");
